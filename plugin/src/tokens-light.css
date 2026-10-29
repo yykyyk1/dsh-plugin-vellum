@@ -1,0 +1,143 @@
+/* ============================================================================
+ * ORYZO DAY · 语义 token 覆盖（真正决定"看起来对不对"的一层）
+ * ----------------------------------------------------------------------------
+ * app 自己有一套语义别名：--dsw-alias-*（107 个）和 --dsw-radius-*（6 档）。
+ * 组件不写死颜色/圆角，全都引用它们。所以在这一层改，比逐个猜组件类名有效得多。
+ *
+ * 取值：暖纸 #f5ede2 / 抬升 #fffaf2 / 墨 #241a12 / 橙墨 #b84a0c / 琥珀 #e08a2e
+ * 圆角：按"Apple 式"放大一档（4→6 / 8→12 / 12→16 / 16→20 / 20→24 / 28→26）
+ * ==========================================================================*/
+
+html[data-dsh-theme="light"] {
+  /* ---------- 圆角：所有组件一起变圆 ---------- */
+  --dsw-radius-xs: 6px;
+  --dsw-radius-sm: 12px;
+  --dsw-radius-md: 16px;
+  --dsw-radius-lg: 20px;
+  --dsw-radius-xl: 24px;
+  --dsw-radius-panel: 26px;
+
+  /* ---------- 底色 ---------- */
+  --dsw-alias-bg-base: #f5ede2;
+  --dsw-alias-bg-layer-1: #f5ede2;
+  --dsw-alias-bg-layer-2: #f5ede2;
+  --dsw-alias-bg-layer-3: #fdf8f0;
+  --dsw-alias-bg-overlay: #fffaf2;
+  --dsw-alias-bg-module-platform: #efe4d4;
+  --dsw-alias-bg-multi-select: #efe4d4;
+  --dsw-alias-bg-document-preview: #fffaf2;
+  --dsw-alias-bg-skeleton: rgba(36, 26, 18, .05);
+  --dsw-alias-bg-mask-1: rgba(60, 42, 22, .22);
+  --dsw-alias-bg-mask-2: rgba(60, 42, 22, .12);
+  --dsw-alias-bg-mask-3: rgba(60, 42, 22, .42);
+  --dsw-alias-bg-mask-drop: rgba(255, 250, 242, .82);
+
+  /* ---------- 边框 ---------- */
+  --dsw-alias-border-l1: rgba(36, 26, 18, .07);
+  --dsw-alias-border-l2: rgba(36, 26, 18, .11);
+  --dsw-alias-border-l2-darkmode-thin: rgba(36, 26, 18, .11);
+  --dsw-alias-border-l3: rgba(36, 26, 18, .16);
+  --dsw-alias-border-l4: rgba(36, 26, 18, .22);
+
+  /* ---------- 文字 ---------- */
+  --dsw-alias-label-primary: #241a12;
+  --dsw-alias-label-primary-dimmed: #2a1e16;
+  --dsw-alias-label-primary-bluish: #3a2b1e;
+  --dsw-alias-label-primary-foreground: #ffedd7;
+  --dsw-alias-label-primary-inverted: #fffaf2;
+  --dsw-alias-label-secondary: #5a4a39;
+  --dsw-alias-label-tertiary: #8c7a64;
+  --dsw-alias-label-caption: #a1907a;
+  --dsw-alias-label-dimmed: #b8a894;
+  --dsw-alias-label-document-preview: #4a3a2a;
+  --dsw-alias-link: #b84a0c;
+  --dsw-alias-menu-icon: #6b5947;
+
+  /* ---------- 品牌 / 状态 ---------- */
+  --dsw-alias-brand-primary: #241a12;
+  --dsw-alias-brand-primary-invert: #fffaf2;
+  --dsw-alias-brand-text: #241a12;
+  --dsw-alias-brand-primary-new-colorprimary-new-color: #b84a0c;
+  --dsw-alias-state-business-primary: #b84a0c;
+  --dsw-alias-state-business-tertiary: #f3ddc4;
+  --dsw-alias-state-error-primary: #b03a2a;
+  --dsw-alias-state-error-secondary: #c9664f;
+  --dsw-alias-state-idle-primary: #c8b9a6;
+  --dsw-alias-state-success-primary: #4f7a4a;
+  --dsw-alias-state-success-secondary: #6f9a68;
+  --dsw-alias-state-success-tertiary: #e3ecdd;
+  --dsw-alias-state-warn-primary: #c07a1c;
+  --dsw-alias-state-warn-secondary: #d99a45;
+  --dsw-alias-state-warn-tertiary: #f6e6cd;
+  --dsw-alias-state-warn-label: #a0641a;
+
+  /* ---------- 交互态 ---------- */
+  --dsw-alias-interactive-bg-hover: rgba(36, 26, 18, .045);
+  --dsw-alias-interactive-bg-active: rgba(36, 26, 18, .07);
+  --dsw-alias-interactive-bg-hover-accent: rgba(184, 74, 12, .08);
+  --dsw-alias-interactive-bg-hover-solid: rgba(36, 26, 18, .06);
+  --dsw-alias-interactive-bg-hover-danger: rgba(176, 58, 42, .07);
+
+  /* ---------- 按钮 ---------- */
+  --dsw-alias-button-elevated-fill: #fffaf2;
+  --dsw-alias-button-floating-fill: #fffaf2;
+  --dsw-alias-button-floating-hover: #fdf4e8;
+  --dsw-alias-button-ghost-active-fill: rgba(36, 26, 18, .05);
+  --dsw-alias-button-ghost-active-hover: rgba(36, 26, 18, .08);
+  --dsw-alias-button-ghost-active-border: rgba(36, 26, 18, .18);
+  --dsw-alias-button-contrast-fill: #241a12;
+  --dsw-alias-button-primary-dimmed: #f3ddc4;
+  --dsw-alias-button-info-fill: #b84a0c;
+  --dsw-alias-button-info-hover: #a13f08;
+  --dsw-alias-button-tool-bar-fill: rgba(36, 26, 18, .06);
+  --dsw-alias-button-tool-bar-fill-invisible: rgba(36, 26, 18, .04);
+  --dsw-alias-button-tool-bar-hover: rgba(36, 26, 18, .10);
+
+  /* ---------- Markdown ---------- */
+  --dsw-alias-markdown-code-block: #fffdf8;
+  --dsw-alias-markdown-code-block-banner: #f7efe3;
+  --dsw-alias-markdown-inline-code: #f1e5d3;
+  --dsw-alias-markdown-citation: #f3e7d6;
+  --dsw-alias-markdown-placeholder: rgba(36, 26, 18, .34);
+  --dsw-alias-markdown-tag: #f3e7d6;
+  --dsw-alias-markdown-code-segment-selected: #fffaf2;
+  --dsw-alias-markdown-code-segment-unselected: #f1e5d3;
+  --dsw-alias-turn-trigger-bg: #fffaf2;
+  --dsw-alias-turn-trigger-bg-hover: rgba(36, 26, 18, .05);
+
+  /* ---------- 卡片 / 菜单 / 浮层 ---------- */
+  --dsw-alias-settings-card-fill: #fffaf2;
+  --dsw-alias-settings-card-stroke: rgba(36, 26, 18, .10);
+  --dsw-alias-menu-group-header-fill: rgba(240, 230, 215, .9);
+  --dsw-alias-tooltip-bg: #2a1e16;
+  --dsw-alias-tooltip-key-bg: rgba(255, 237, 215, .10);
+  --dsw-alias-toast-bg: #241a12;
+  --dsw-alias-toast-label: #ffedd7;
+  --dsw-alias-switch-thumb: #fffaf2;
+
+  /* ---------- 滚动条 ---------- */
+  --dsw-alias-scrollbar-bg-l1: rgba(36, 26, 18, .10);
+  --dsw-alias-scrollbar-bg-l2: rgba(36, 26, 18, .10);
+  --dsw-alias-scrollbar-hover-l1: rgba(36, 26, 18, .20);
+  --dsw-alias-scrollbar-hover-l2: rgba(36, 26, 18, .20);
+
+  /* ---------- 聚焦 ---------- */
+  --dsw-focus-ring-color: rgba(184, 74, 12, .45);
+  --dsw-focus-ring-width: 2px;
+}
+
+/* ---------- 悬浮感：把"抬升面"从线框里托出来 ---------- */
+html[data-dsh-theme="light"] [data-dsh-card],
+html[data-dsh-theme="light"] [data-dsh-msg],
+html[data-dsh-theme="light"] div:has(> div > div > [contenteditable="true"]),
+html[data-dsh-theme="light"] [role="dialog"] {
+  box-shadow: 0 2px 4px rgba(72, 50, 28, .06), 0 14px 30px -14px rgba(72, 50, 28, .20) !important;
+}
+html[data-dsh-theme="light"] div:has(> div > div > [contenteditable="true"]) {
+  box-shadow: 0 3px 6px rgba(72, 50, 28, .07), 0 22px 48px -20px rgba(72, 50, 28, .26) !important;
+}
+html[data-dsh-theme="light"] [role="dialog"],
+html[data-dsh-theme="light"] [aria-modal="true"] {
+  border: 1px solid rgba(36, 26, 18, .10) !important;
+  border-radius: var(--dsw-radius-panel) !important;
+}

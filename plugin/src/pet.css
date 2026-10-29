@@ -1,0 +1,58 @@
+/* 桌宠（视频版） */
+#dsh-oryzo-pet {
+  position: fixed;
+  right: 2px;
+  bottom: 26px;
+  width: 150px;
+  height: 150px;
+  z-index: 2147483300;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+  transition: opacity .3s ease;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .32));
+}
+#dsh-oryzo-pet video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+html[data-dsh-theme="light"] #dsh-oryzo-pet {
+  filter: drop-shadow(0 8px 16px rgba(72, 50, 28, .20));
+}
+body:has(#dsh-oryzo-splash) #dsh-oryzo-pet,
+body:has(#dsh-boot-host) #dsh-oryzo-pet { opacity: 0; }
+
+#dsh-oryzo-pet .pet-bubble {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  transform: translate(-50%, -100%);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font: 600 11px/1 ui-monospace, Consolas, monospace;
+  letter-spacing: .1em;
+  opacity: 0;
+  transition: opacity .25s ease;
+  corner-shape: round;
+}
+html[data-dsh-theme="dark"] #dsh-oryzo-pet .pet-bubble {
+  background: #2a1c12; color: #ffa000; border: 1px solid rgba(255, 237, 215, .14);
+}
+html[data-dsh-theme="light"] #dsh-oryzo-pet .pet-bubble {
+  background: #fffaf2; color: #b84a0c; border: 1px solid rgba(36, 26, 18, .12);
+  box-shadow: 0 2px 6px rgba(72, 50, 28, .12);
+}
+#dsh-oryzo-pet[data-mode="thinking"] .pet-bubble {
+  opacity: 1;
+  animation: pet-dots 1.6s ease-in-out infinite;
+}
+@keyframes pet-dots {
+  0%, 100% { transform: translate(-50%, -100%) scale(1); opacity: .55; }
+  50% { transform: translate(-50%, -104%) scale(1.04); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #dsh-oryzo-pet { transition: none; }
+  #dsh-oryzo-pet .pet-bubble { animation: none; }
+}

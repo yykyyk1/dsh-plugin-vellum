@@ -1,0 +1,56 @@
+/* ============================================================================
+ * ORYZO · 对比度兜底
+ * ----------------------------------------------------------------------------
+ * tag.js 会把"底色和当前主题明显打架的块"标上 data-dsh-fix，
+ * 这里按主题把它们拉回我们的表面色，并把内部的花底/花字压平。
+ * 任务清单（TodoWrite）就是靠这条从"奶油底 + 奶油字"里救回来的。
+ * ==========================================================================*/
+
+html[data-dsh-theme="dark"] [data-dsh-fix] {
+  background-color: #160e07 !important;
+  background-image: none !important;
+  color: #ffedd7 !important;
+  border-color: rgba(255, 237, 215, .10) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+html[data-dsh-theme="dark"] [data-dsh-fix] * {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+  border-color: rgba(255, 237, 215, .10) !important;
+}
+
+html[data-dsh-theme="light"] [data-dsh-fix] {
+  background-color: #fffaf2 !important;
+  background-image: none !important;
+  color: #241a12 !important;
+  border-color: rgba(36, 26, 18, .10) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 4px rgba(72, 50, 28, .06), 0 14px 30px -14px rgba(72, 50, 28, .20) !important;
+}
+html[data-dsh-theme="light"] [data-dsh-fix] * {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+  border-color: rgba(36, 26, 18, .10) !important;
+}
+
+/* 勾选框：两边用同一套几何 */
+html[data-dsh-theme="dark"] [data-chat-flow] input[type="checkbox"],
+html[data-dsh-theme="light"] [data-chat-flow] input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px !important;
+  corner-shape: round;
+  appearance: none;
+  border: 1.5px solid currentColor;
+  opacity: .7;
+  position: relative;
+  flex: 0 0 14px;
+}
+html[data-dsh-theme="dark"] [data-chat-flow] input[type="checkbox"]:checked,
+html[data-dsh-theme="light"] [data-chat-flow] input[type="checkbox"]:checked {
+  background: currentColor;
+  opacity: 1;
+}

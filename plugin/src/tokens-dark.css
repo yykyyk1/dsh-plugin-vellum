@@ -1,0 +1,137 @@
+/* ============================================================================
+ * ORYZO · 暗色的语义 token 覆盖
+ * ----------------------------------------------------------------------------
+ * 为什么需要这一层：暗色皮肤把 app 的静态刻度（--dsw-static-neutral-*）整条
+ * 反了过来（00 = 奶油、1000 = 近黑），可是语义别名（--dsw-alias-bg-*）
+ * 仍然指向"00 当底色"——于是卡片背景变成奶油色，文字也是奶油色，直接糊成一片。
+ * 任务清单 / 设置卡片 / 代码块 都属于这一类。
+ * 这里把别名按"深色语义"重新指一遍。
+ * ==========================================================================*/
+
+html[data-dsh-theme="dark"] {
+  /* 底色 */
+  --dsw-alias-bg-base: #100904;
+  --dsw-alias-bg-layer-1: #140c06;
+  --dsw-alias-bg-layer-2: #1a1008;
+  --dsw-alias-bg-layer-3: #22150c;
+  --dsw-alias-bg-overlay: #241710;
+  --dsw-alias-bg-module-platform: #160e07;
+  --dsw-alias-bg-multi-select: #160e07;
+  --dsw-alias-bg-document-preview: #1a1008;
+  --dsw-alias-bg-skeleton: rgba(255, 237, 215, .05);
+  --dsw-alias-bg-mask-1: rgba(0, 0, 0, .45);
+  --dsw-alias-bg-mask-2: rgba(0, 0, 0, .28);
+  --dsw-alias-bg-mask-3: rgba(0, 0, 0, .62);
+  --dsw-alias-bg-mask-drop: rgba(16, 9, 4, .82);
+
+  /* 边框 */
+  --dsw-alias-border-l1: rgba(255, 237, 215, .07);
+  --dsw-alias-border-l2: rgba(255, 237, 215, .12);
+  --dsw-alias-border-l2-darkmode-thin: rgba(255, 237, 215, .12);
+  --dsw-alias-border-l3: rgba(255, 237, 215, .17);
+  --dsw-alias-border-l4: rgba(255, 237, 215, .24);
+
+  /* 文字 */
+  --dsw-alias-label-primary: #ffedd7;
+  --dsw-alias-label-primary-dimmed: #f2e3cc;
+  --dsw-alias-label-primary-foreground: #16100a;
+  --dsw-alias-label-primary-inverted: #16100a;
+  --dsw-alias-label-secondary: #c9b9a1;
+  --dsw-alias-label-tertiary: #9b8a74;
+  --dsw-alias-label-caption: #857661;
+  --dsw-alias-label-dimmed: #6c5f51;
+  --dsw-alias-menu-icon: #c9b9a1;
+  --dsw-alias-link: #ffa000;
+
+  /* 卡片 / 浮层：任务清单、设置卡、代码块都走这几个 */
+  --dsw-alias-settings-card-fill: #160e07;
+  --dsw-alias-settings-card-stroke: rgba(255, 237, 215, .10);
+  --dsw-alias-menu-group-header-fill: rgba(26, 16, 8, .92);
+  --dsw-alias-tooltip-bg: #2a1c12;
+  --dsw-alias-tooltip-key-bg: rgba(255, 237, 215, .10);
+  --dsw-alias-toast-bg: #2a1c12;
+  --dsw-alias-toast-label: #ffedd7;
+  --dsw-alias-switch-thumb: #ffedd7;
+  --dsw-alias-turn-trigger-bg: #160e07;
+  --dsw-alias-turn-trigger-bg-hover: rgba(255, 237, 215, .07);
+
+  /* Markdown */
+  --dsw-alias-markdown-code-block: #160e07;
+  --dsw-alias-markdown-code-block-banner: #1a1008;
+  --dsw-alias-markdown-inline-code: #2a1c12;
+  --dsw-alias-markdown-citation: #22150c;
+  --dsw-alias-markdown-placeholder: rgba(255, 237, 215, .35);
+  --dsw-alias-markdown-tag: #2a1c12;
+  --dsw-alias-markdown-code-segment-selected: #241710;
+  --dsw-alias-markdown-code-segment-unselected: #1a1008;
+
+  /* 交互态 */
+  --dsw-alias-interactive-bg-hover: rgba(255, 237, 215, .06);
+  --dsw-alias-interactive-bg-active: rgba(255, 237, 215, .10);
+  --dsw-alias-interactive-bg-hover-accent: rgba(255, 160, 0, .10);
+  --dsw-alias-interactive-bg-hover-solid: rgba(255, 237, 215, .08);
+  --dsw-alias-interactive-bg-hover-danger: rgba(220, 80, 0, .10);
+
+  /* 按钮 */
+  --dsw-alias-button-elevated-fill: #22150c;
+  --dsw-alias-button-floating-fill: #22150c;
+  --dsw-alias-button-floating-hover: #2a1c12;
+  --dsw-alias-button-ghost-active-fill: rgba(255, 237, 215, .07);
+  --dsw-alias-button-ghost-active-hover: rgba(255, 237, 215, .11);
+  --dsw-alias-button-ghost-active-border: rgba(255, 237, 215, .20);
+  --dsw-alias-button-contrast-fill: #ffedd7;
+  --dsw-alias-button-primary-dimmed: #3a2b1e;
+  --dsw-alias-button-info-fill: #dc5000;
+  --dsw-alias-button-info-hover: #c2410c;
+  --dsw-alias-button-tool-bar-fill: rgba(255, 237, 215, .08);
+  --dsw-alias-button-tool-bar-fill-invisible: rgba(255, 237, 215, .05);
+  --dsw-alias-button-tool-bar-hover: rgba(255, 237, 215, .13);
+
+  /* 品牌 / 状态 */
+  --dsw-alias-brand-primary: #ffedd7;
+  --dsw-alias-brand-primary-invert: #16100a;
+  --dsw-alias-brand-text: #ffedd7;
+  --dsw-alias-state-business-primary: #ffa000;
+  --dsw-alias-state-business-tertiary: #3a2b1e;
+  --dsw-alias-state-error-primary: #e2563c;
+  --dsw-alias-state-error-secondary: #c2410c;
+  --dsw-alias-state-idle-primary: #55483a;
+  --dsw-alias-state-success-primary: #6f9a68;
+  --dsw-alias-state-success-secondary: #4f7a4a;
+  --dsw-alias-state-success-tertiary: #24301f;
+  --dsw-alias-state-warn-primary: #e0a33e;
+  --dsw-alias-state-warn-secondary: #c07a1c;
+  --dsw-alias-state-warn-tertiary: #33261a;
+  --dsw-alias-state-warn-label: #e0a33e;
+
+  /* 滚动条 / 聚焦 */
+  --dsw-alias-scrollbar-bg-l1: rgba(255, 237, 215, .10);
+  --dsw-alias-scrollbar-bg-l2: rgba(255, 237, 215, .10);
+  --dsw-alias-scrollbar-hover-l1: rgba(255, 237, 215, .22);
+  --dsw-alias-scrollbar-hover-l2: rgba(255, 237, 215, .22);
+  --dsw-focus-ring-color: rgba(255, 160, 0, .55);
+  --dsw-focus-ring-width: 2px;
+}
+
+/* 任务清单这类"卡片 + 行"的结构：给一层深底 + 暖字，别让内部自己的浅底透出来 */
+html[data-dsh-theme="dark"] [data-chat-flow] [class*="todo"],
+html[data-dsh-theme="dark"] [data-chat-flow] [class*="Todo"],
+html[data-dsh-theme="dark"] [data-chat-flow] [class*="task-list"],
+html[data-dsh-theme="dark"] [data-chat-flow] [class*="taskList"] {
+  background: #160e07 !important;
+  border: 1px solid rgba(255, 237, 215, .10) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+/* 兜底：被标了 data-dsh-fix 的块（tag.js 按对比度算出来的） */
+html[data-dsh-theme="dark"] [data-dsh-fix] {
+  background-color: #160e07 !important;
+  background-image: none !important;
+  color: #ffedd7 !important;
+}
+html[data-dsh-theme="dark"] [data-dsh-fix] * {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+}

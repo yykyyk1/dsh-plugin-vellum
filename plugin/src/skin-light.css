@@ -1,0 +1,400 @@
+/* ============================================================================
+ * ORYZO DAY · 皮肤（暖纸）
+ * ----------------------------------------------------------------------------
+ * 取向和暗色版同一套语言，只是把"暗房"换成"暖纸"：
+ *   纸面 #f5ede2，抬升面 #fffaf2（只亮一档），发丝线 rgba(36,26,18,.10)，
+ *   正文 #241a12，橙色当墨用 #b84a0c，琥珀只当光 #e08a2e，零阴影。
+ * 选择器只用 app 的稳定钩子：data-* / role / CSS Modules 类名后缀 / :has()。
+ * 这个文件必须 UTF-8 无 BOM。
+ * ==========================================================================*/
+
+/* ---------- 画布与基础色 ---------- */
+html[data-dsh-skin="oryzo-light"] {
+  color-scheme: light !important;
+  --day-paper: #f5ede2;
+  --day-paper-2: #efe4d4;
+  --day-card: #fffaf2;
+  --day-card-2: #fffdf8;
+  --day-line: rgba(36, 26, 18, .10);
+  --day-line-2: rgba(36, 26, 18, .16);
+  --day-ink: #241a12;
+  --day-ink-2: #5a4a39;
+  --day-ink-3: #8c7a64;
+  --day-accent: #b84a0c;
+  --day-amber: #e08a2e;
+  background-color: var(--day-paper) !important;
+}
+html[data-dsh-skin="oryzo-light"] body {
+  background-color: var(--day-paper) !important;
+  color: var(--day-ink);
+}
+html[data-dsh-skin="oryzo-light"] body ::selection {
+  background: rgba(224, 138, 46, .28);
+  color: var(--day-ink);
+}
+
+/* ---------- 顶栏：纸面同色，只留一条发丝线 ---------- */
+html[data-dsh-skin="oryzo-light"] [data-windows-titlebar],
+html[data-dsh-skin="oryzo-light"] [class*="titlebar"] {
+  background: var(--day-paper) !important;
+  border-bottom: 1px solid var(--day-line) !important;
+  color: var(--day-ink-2) !important;
+}
+
+/* ---------- 侧栏：容器退后，选中行抬起来 ---------- */
+html[data-dsh-skin="oryzo-light"] [role="tree"] {
+  background: var(--day-paper-2) !important;
+  border-right: 1px solid var(--day-line);
+}
+html[data-dsh-skin="oryzo-light"] [role="treeitem"] {
+  border-radius: 10px;
+  color: var(--day-ink-2) !important;
+  background: transparent !important;
+}
+html[data-dsh-skin="oryzo-light"] [role="treeitem"]:hover {
+  background: rgba(36, 26, 18, .04) !important;
+  color: var(--day-ink) !important;
+}
+html[data-dsh-skin="oryzo-light"] [role="treeitem"][aria-selected="true"],
+html[data-dsh-skin="oryzo-light"] [role="treeitem"][data-state="selected"] {
+  background: var(--day-card) !important;
+  border: 1px solid var(--day-line);
+  color: var(--day-ink) !important;
+}
+
+/* ---------- 按钮：幽灵底，只有聚焦才亮 ---------- */
+html[data-dsh-skin="oryzo-light"] button,
+html[data-dsh-skin="oryzo-light"] [role="button"] {
+  color: var(--day-ink-2);
+  border-color: var(--day-line-2);
+  background: transparent;
+  box-shadow: none !important;
+}
+html[data-dsh-skin="oryzo-light"] button:hover,
+html[data-dsh-skin="oryzo-light"] [role="button"]:hover {
+  color: var(--day-ink);
+  background: rgba(36, 26, 18, .04);
+}
+html[data-dsh-skin="oryzo-light"] button:focus-visible,
+html[data-dsh-skin="oryzo-light"] [role="button"]:focus-visible {
+  outline: 2px solid rgba(184, 74, 12, .55) !important;
+  outline-offset: 2px;
+  box-shadow: none !important;
+}
+
+/* ---------- 阅读栏 ---------- */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] {
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: var(--day-ink-2);
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] p,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] li {
+  color: var(--day-ink-2);
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] strong,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] b {
+  color: var(--day-ink);
+  font-weight: 600;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] a {
+  color: var(--day-accent);
+  text-decoration-color: rgba(184, 74, 12, .35);
+  text-underline-offset: 3px;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] h1,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] h2,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] h3 {
+  color: var(--day-ink);
+  font-weight: 500;
+  letter-spacing: -.01em;
+}
+
+/* 行内代码 */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: .88em;
+  color: var(--day-accent);
+  background: rgba(224, 138, 46, .10);
+  border: 1px solid rgba(224, 138, 46, .22);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+/* 代码块：纸上的浅色块，不加阴影 */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] pre {
+  background: var(--day-card-2) !important;
+  border: 1px solid var(--day-line);
+  border-radius: 12px;
+  color: var(--day-ink);
+}
+
+/* 表格 */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] table {
+  border-collapse: collapse;
+  border: 1px solid var(--day-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] th {
+  background: var(--day-paper-2);
+  color: var(--day-ink);
+  font-weight: 600;
+  border-bottom: 1px solid var(--day-line-2);
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] td {
+  border-top: 1px solid var(--day-line);
+  color: var(--day-ink-2);
+}
+
+/* ---------- 用户消息：一张卡装下正文 + footer ---------- */
+html[data-dsh-skin="oryzo-light"] [class*="userRow"] {
+  background: var(--day-card) !important;
+  border: 1px solid var(--day-line) !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="userStack"] {
+  background: transparent !important;
+  color: var(--day-ink) !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="bubble"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--day-ink) !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="userRow"] [class*="actions"],
+html[data-dsh-skin="oryzo-light"] [class*="userRow"] [class*="timeStart"] {
+  color: var(--day-ink-3) !important;
+  border-top: 1px solid var(--day-line);
+}
+
+/* ---------- 交付物 / 附件卡 ---------- */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_presented"],
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_file"] {
+  background: var(--day-card) !important;
+  border: 1px solid var(--day-line) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_fileIcon"] {
+  background: rgba(224, 138, 46, .12) !important;
+  border: 1px solid rgba(224, 138, 46, .26) !important;
+  border-radius: 9px !important;
+  color: var(--day-accent) !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_fileName"] {
+  color: var(--day-ink) !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_secondaryText"] {
+  color: var(--day-ink-3) !important;
+}
+
+/* ---------- 分节线：2px/2px 虚线 ---------- */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="turn-tail"],
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] > * + * {
+  border-color: var(--day-line) !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="runningDivider"] {
+  background: repeating-linear-gradient(90deg, rgba(36, 26, 18, .26) 0 2px, transparent 2px 4px) !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="runningText"],
+html[data-dsh-skin="oryzo-light"] [class*="runningWhale"] {
+  color: var(--day-ink-3) !important;
+}
+
+/* ---------- 输入卡：零阴影，焦点是一圈琥珀光环 ---------- */
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]) {
+  background: var(--day-card) !important;
+  border: 1px solid var(--day-line-2) !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]):focus-within {
+  box-shadow: 0 0 0 3px rgba(224, 138, 46, .14) !important;
+  border-color: rgba(184, 74, 12, .42) !important;
+}
+html[data-dsh-skin="oryzo-light"] [contenteditable="true"] {
+  color: var(--day-ink) !important;
+  caret-color: var(--day-accent) !important;
+}
+html[data-dsh-skin="oryzo-light"] [contenteditable="true"]::placeholder {
+  color: var(--day-ink-3) !important;
+}
+
+/* ---------- 滚动条 ---------- */
+html[data-dsh-skin="oryzo-light"] ::-webkit-scrollbar { width: 10px; height: 10px; }
+html[data-dsh-skin="oryzo-light"] ::-webkit-scrollbar-track { background: transparent; }
+html[data-dsh-skin="oryzo-light"] ::-webkit-scrollbar-thumb {
+  background: rgba(36, 26, 18, .16);
+  border-radius: 999px;
+  border: 3px solid var(--day-paper);
+}
+html[data-dsh-skin="oryzo-light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(36, 26, 18, .26);
+}
+
+/* ---------- 选中态：琥珀薄底 ---------- */
+html[data-dsh-skin="oryzo-light"] [aria-selected="true"],
+html[data-dsh-skin="oryzo-light"] [data-state="selected"] {
+  background: var(--day-card);
+  color: var(--day-ink);
+}
+
+/* ---------- 生成中的进度线：墨线 + 琥珀光 ---------- */
+html[data-dsh-skin="oryzo-light"] [class*="progress"] {
+  background: linear-gradient(90deg, transparent, rgba(184, 74, 12, .5), transparent) !important;
+}
+
+/* ---------- 画布一致性：聊天区也必须是纸面，否则侧栏和主区两种白 ---------- */
+html[data-dsh-skin="oryzo-light"] [class*="Dc7zOa_root"],
+html[data-dsh-skin="oryzo-light"] [class*="_root"]:has([data-chat-flow]),
+html[data-dsh-skin="oryzo-light"] [class*="_root"]:has([class*="composerHero"]) {
+  background-color: var(--day-paper) !important;
+  background-image: none !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="scrollBody"],
+html[data-dsh-skin="oryzo-light"] [class*="composerSeat"] {
+  background-color: transparent !important;
+}
+/* 侧栏和主区用同一张纸，只靠一条发丝线分开 */
+html[data-dsh-skin="oryzo-light"] [role="tree"] {
+  background: var(--day-paper) !important;
+}
+html[data-dsh-skin="oryzo-light"] [class*="brand"],
+html[data-dsh-skin="oryzo-light"] [class*="logo"] {
+  color: var(--day-ink) !important;
+}
+/* ---------- 聊天区彻底变成纸 ----------
+ * 不猜类名：凡是"包含聊天流"的祖先容器，一律刷成纸面。
+ * 这样主区不会再有 app 自带的白底，和侧栏是同一张纸。 */
+html[data-dsh-skin="oryzo-light"] body *:has([data-chat-flow]) {
+  background-color: var(--day-paper) !important;
+  background-image: none !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow],
+html[data-dsh-skin="oryzo-light"] [class*="scrollBody"],
+html[data-dsh-skin="oryzo-light"] [class*="composerSeat"],
+html[data-dsh-skin="oryzo-light"] [class*="centerCol"] {
+  background: transparent !important;
+}
+/* 顶栏 / 工具条也并入纸面 */
+html[data-dsh-skin="oryzo-light"] [data-windows-titlebar],
+html[data-dsh-skin="oryzo-light"] [class*="titlebar"],
+html[data-dsh-skin="oryzo-light"] [class*="topBar"],
+html[data-dsh-skin="oryzo-light"] [class*="headerBar"] {
+  background: var(--day-paper) !important;
+  border-bottom: 1px solid var(--day-line) !important;
+}
+
+/* ---------- 附件 / 交付物：去掉边框，只留一层很薄的填色 ---------- */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_presented"],
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_file"],
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_attachment"] {
+  background: rgba(36, 26, 18, .035) !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_presented"]:hover,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_file"]:hover,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_attachment"]:hover {
+  background: rgba(36, 26, 18, .06) !important;
+}
+/* 图标砖也跟着去掉边框 */
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_fileIcon"] {
+  border: 0 !important;
+  background: rgba(224, 138, 46, .14) !important;
+}
+/* 输入卡聚焦环收一点，别像贴了一圈橙线 */
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]):focus-within {
+  box-shadow: 0 0 0 3px rgba(224, 138, 46, .10) !important;
+  border-color: rgba(184, 74, 12, .30) !important;
+}
+/* ---------- 结构标记（tag.js 打上来的 data-*） ----------
+ * 这些属性是脚本按"几何 + 文本"算出来的，不依赖 app 的类名。 */
+html[data-dsh-skin="oryzo-light"] [data-dsh-canvas] {
+  background-color: var(--day-paper) !important;
+  background-image: none !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-dsh-card] {
+  background: rgba(36, 26, 18, .035) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-dsh-card]:hover {
+  background: rgba(36, 26, 18, .06) !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-dsh-msg] {
+  background: var(--day-card) !important;
+  border: 1px solid var(--day-line) !important;
+  box-shadow: none !important;
+  border-radius: 18px !important;
+}
+/* ---------- 悬浮感（Apple 式圆角 + 极轻的投影） ----------
+ * 纸面底色保留；把"硬边框"换成"连续圆角 + 一层很轻的暖影"，
+ * 让卡片像浮在纸上，而不是被线框住。
+ * 参考：卡片 18 / 胶囊按钮 999 / 图标砖 10。 */
+html[data-dsh-skin="oryzo-light"] {
+  --day-r-card: 18px;
+  --day-r-msg: 22px;
+  --day-r-tile: 10px;
+  --day-shadow-1: 0 2px 4px rgba(72, 50, 28, .06), 0 14px 30px -14px rgba(72, 50, 28, .22);
+  --day-shadow-2: 0 3px 6px rgba(72, 50, 28, .07), 0 22px 48px -20px rgba(72, 50, 28, .30);
+}
+
+/* 附件 / 交付物：无边框，浮起来 */
+html[data-dsh-skin="oryzo-light"] [data-dsh-card],
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_presented"],
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_file"] {
+  background: var(--day-card) !important;
+  border: 0 !important;
+  border-radius: var(--day-r-card) !important;
+  box-shadow: var(--day-shadow-1) !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-dsh-card]:hover,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_presented"]:hover,
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_file"]:hover {
+  box-shadow: var(--day-shadow-2) !important;
+  transform: translateY(-1px);
+}
+
+/* 用户消息：一张浮卡 */
+html[data-dsh-skin="oryzo-light"] [data-dsh-msg],
+html[data-dsh-skin="oryzo-light"] [class*="userRow"] {
+  background: var(--day-card) !important;
+  border: 0 !important;
+  border-radius: var(--day-r-msg) !important;
+  box-shadow: var(--day-shadow-1) !important;
+}
+
+/* 输入卡：焦点元素，浮得更高一档 */
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]) {
+  background: var(--day-card) !important;
+  border: 0 !important;
+  border-radius: var(--day-r-msg) !important;
+  box-shadow: var(--day-shadow-2) !important;
+}
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]):focus-within {
+  box-shadow: var(--day-shadow-2), 0 0 0 3px rgba(224, 138, 46, .16) !important;
+}
+
+/* 胶囊按钮 / 图标砖 */
+html[data-dsh-skin="oryzo-light"] [class*="pill"],
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]) button {
+  border-radius: 999px !important;
+  border: 0 !important;
+  background: rgba(36, 26, 18, .045) !important;
+  box-shadow: none !important;
+}
+html[data-dsh-skin="oryzo-light"] div:has(> div > div > [contenteditable="true"]) button:hover {
+  background: rgba(36, 26, 18, .075) !important;
+}
+html[data-dsh-skin="oryzo-light"] [data-chat-flow] [class*="_fileIcon"],
+html[data-dsh-skin="oryzo-light"] [class*="_fileIcon"] {
+  border-radius: var(--day-r-tile) !important;
+  border: 0 !important;
+  background: rgba(224, 138, 46, .14) !important;
+  box-shadow: none !important;
+}

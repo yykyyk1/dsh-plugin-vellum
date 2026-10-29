@@ -1,0 +1,949 @@
+/* DeepSeek Harness · ORYZO 风格皮肤 v4（纯 CSS 覆盖，不改 app 包）
+ *
+ * 取向（对应 ORYZO / Lusion 那套系统，方案 B）：
+ *   画布用暖黑 #100904，不是纯黑；深度只靠两档明度，不用阴影；
+ *   橙色只当"光"——光标、焦点环、运行指示点、选中态，不做实心面；
+ *   半径收敛成四种：12 卡片 / 18 消息 / 999 胶囊 / 0 文字。
+ *
+ * 选择器只依赖三类稳定钩子：
+ *   1) data-* 与 role 属性（app 自己的语义钩子，不随构建变）
+ *   2) CSS Modules 的类名后缀（userRow / userStack / bubble / actions …）
+ *   3) :has() 结构关系（输入卡）
+ *
+ * 注意：这个文件必须是 UTF-8 无 BOM。用 PowerShell 的 Get-Content | Set-Content
+ * 来回改写会把中文注释二次编码成乱码，并可能吞掉后面的规则。
+ */
+
+body[data-ds-dark-theme] {
+  /* ---------- 色板：暖黑画布 + 两档表面 + 一条橙光 ---------- */
+  --dsb-canvas: #100904;          /* Walnut Shadow：所有背景 */
+  --dsb-elevated: #382416;        /* Bark Brown：唯一的"抬高"实心面 */
+  --dsb-elevated-hi: #4a2f1c;     /* 抬高面 hover（同色阶上一档） */
+  --dsb-cork: #40372e;            /* 头发丝边、分隔线 */
+  --dsb-driftwood: #6c5f51;       /* 中间调、微标签 */
+
+  --dsb-lift-1: rgba(255, 237, 215, 0.05);   /* chip hover、行 hover */
+  --dsb-lift-2: rgba(255, 237, 215, 0.08);   /* 用户消息卡 */
+  --dsb-lift-3: rgba(255, 237, 215, 0.11);   /* 用户消息卡 hover */
+
+  --dsb-text-1: #ffedd7;
+  --dsb-text-2: rgba(255, 237, 215, 0.66);
+  --dsb-text-3: var(--dsb-driftwood);
+  --dsb-meta: rgba(255, 237, 215, 0.42);
+
+  --dsb-orange: #dc5000;          /* 文字强调 */
+  --dsb-ember: #ffa000;           /* 光的颜色 */
+
+  --dsb-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dsb-ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --dsb-spring: cubic-bezier(0.3, 0, 0.66, -0.3);  /* 唯一的回弹曲线 */
+
+  --dsb-dash: repeating-linear-gradient(90deg, var(--dsb-cork) 0 2px, transparent 0 4px);
+
+  /* ---------- 覆盖 app 自己的设计变量 ---------- */
+  --dsw-alias-bg-base: #100904;
+  --dsw-alias-label-primary: var(--dsb-text-1);
+  --dsw-alias-label-secondary: var(--dsb-text-2);
+  --dsw-alias-border-l2: var(--dsb-cork);
+  --dsw-radius-sm: 12px;
+  --dsw-radius-md: 12px;
+  --dsw-radius-lg: 18px;
+  --dsw-radius-xl: 36px;
+
+  --dsh-content-font-size: 15px;
+
+  background-color: #100904 !important;
+  color-scheme: dark !important;
+}
+
+/* ---------- 把 app 的冷灰刻度整体改暖 ----------
+ * app 有两套静态中性色（neutral-bluish 与 neutral），侧栏、菜单、弹层、卡片都在用它们。
+ * 逐级换成同明度的暖色，界面才不会"一块暖一块冷"。 */
+body[data-ds-dark-theme] {
+  --dsw-static-neutral-bluish-00: #ffedd7;
+  --dsw-static-neutral-bluish-50: #fbf0dc;
+  --dsw-static-neutral-bluish-60: #fbf0dc;
+  --dsw-static-neutral-bluish-75: #f7ead5;
+  --dsw-static-neutral-bluish-100: #f2e3cc;
+  --dsw-static-neutral-bluish-150: #eee0c9;
+  --dsw-static-neutral-bluish-200: #e6d4b9;
+  --dsw-static-neutral-bluish-300: #d6c2a6;
+  --dsw-static-neutral-bluish-400: #b9a68c;
+  --dsw-static-neutral-bluish-500: #9b8a74;
+  --dsw-static-neutral-bluish-600: #857661;
+  --dsw-static-neutral-bluish-700: #6c5f51;
+  --dsw-static-neutral-bluish-750: #55483a;
+  --dsw-static-neutral-bluish-800: #43352a;
+  --dsw-static-neutral-bluish-850: #33251a;
+  --dsw-static-neutral-bluish-875: #2a1c12;
+  --dsw-static-neutral-bluish-900: #21150c;
+  --dsw-static-neutral-bluish-950: #180e06;
+  --dsw-static-neutral-bluish-1000: #100904;
+
+  --dsw-static-neutral-00: #ffedd7;
+  --dsw-static-neutral-50: #fbf0dc;
+  --dsw-static-neutral-100: #f5e7d1;
+  --dsw-static-neutral-150: #f0e2cb;
+  --dsw-static-neutral-200: #e6d4b9;
+  --dsw-static-neutral-250: #dccab0;
+  --dsw-static-neutral-300: #d6c2a6;
+  --dsw-static-neutral-400: #b9a68c;
+  --dsw-static-neutral-500: #9b8a74;
+  --dsw-static-neutral-550: #857661;
+  --dsw-static-neutral-600: #6c5f51;
+  --dsw-static-neutral-700: #55483a;
+  --dsw-static-neutral-800: #3a2b1e;
+  --dsw-static-neutral-850: #2a1c12;
+  --dsw-static-neutral-900: #1a1009;
+  --dsw-static-neutral-1000: #0b0703;
+}
+
+/* 统一的手感：只动颜色与合成层，不动布局 */
+body[data-ds-dark-theme] button,
+body[data-ds-dark-theme] [role="treeitem"],
+body[data-ds-dark-theme] [role="button"] {
+  transition: background-color 200ms var(--dsb-ease), color 200ms var(--dsb-ease),
+    border-color 200ms var(--dsb-ease), transform 140ms var(--dsb-spring),
+    box-shadow 200ms var(--dsb-ease), opacity 200ms var(--dsb-ease);
+}
+
+/* ---------- 顶栏：画布同色，只留一条边 ---------- */
+body[data-ds-dark-theme] [data-windows-titlebar] {
+  background: rgba(16, 9, 4, 0.92) !important;
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border-bottom: 1px solid var(--dsb-cork);
+  box-shadow: none;
+}
+
+/* ---------- 侧栏：容器退后，行是"选中即抬高" ---------- */
+body[data-ds-dark-theme] [role="tree"] {
+  background: var(--dsb-canvas) !important;
+  border-right: 1px solid var(--dsb-cork);
+}
+body[data-ds-dark-theme] [role="treeitem"] {
+  border-radius: 12px;
+  margin: 2px 6px;
+  padding-block: 7px;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] [role="treeitem"]:hover {
+  background: var(--dsb-lift-1);
+}
+/* 选中行：唯一的实心抬高面，和参考站的"两档表面"一致 */
+body[data-ds-dark-theme] [role="treeitem"][aria-selected="true"],
+body[data-ds-dark-theme] [role="treeitem"][data-state="selected"] {
+  background: var(--dsb-elevated) !important;
+  color: var(--dsb-text-1) !important;
+  box-shadow: none !important;
+}
+
+/* ---------- 对话：更宽的阅读栏 + 更松的节奏 ---------- */
+body[data-ds-dark-theme] [data-chat-flow] {
+  max-width: 760px;
+  padding-block: 28px 12px;
+}
+body[data-ds-dark-theme] [data-chat-flow] > * + * {
+  margin-top: 26px;
+}
+
+/* ============================================================
+ * 空状态：void-mode 首屏（有编排，不只是排版）
+ * ------------------------------------------------------------
+ * 对应参考站 hero 的三件事：暗房里的"场"、逐行遮罩升起的字、
+ * 从物件本身发出来的涟漪。全部 CSS，没有 JS 也没有 canvas。
+ *
+ * 入场时间轴（每次进入空会话都会重播，因为节点会重新挂载）：
+ *   0ms    场（同心环 + 底部橙光）淡入 700ms
+ *   120ms  章节虚线从左画出 520ms
+ *   160ms  标题从遮罩里升起 820ms
+ *   420ms  "预览版"徽标浮起 600ms
+ *   0/100/180ms  标题块、工作区行、输入卡依次升起
+ * ============================================================ */
+body[data-ds-dark-theme] [class*="composerHero"] {
+  gap: 22px !important;
+}
+
+/* ---------- 场：只在没有对话时亮起 ----------
+ * 画在聊天列自己的背景上（不是固定定位的伪元素）——
+ * 伪元素不管 z-index 怎么给，都会被 app 自己的底色层盖住；
+ * 而元素自身的 background 一定在内容下面，天然不会压到文字。 */
+body[data-ds-dark-theme] [class*="Dc7zOa_root"]:has([class*="composerHero"]) {
+  background-image:
+    radial-gradient(70% 46% at 50% 86%, rgba(220, 80, 0, 0.12), rgba(0, 0, 0, 0) 70%),
+    repeating-radial-gradient(
+      circle at 50% 42%,
+      rgba(255, 237, 215, 0.055) 0 1px,
+      rgba(0, 0, 0, 0) 1px 46px
+    );
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* ---------- 入场编排：标题块 → 工作区行 → 输入卡 ---------- */
+body[data-ds-dark-theme] [class*="Hqq-bq_root"] {
+  padding: 0 !important;
+  animation: dsb-hero-rise 700ms var(--dsb-ease) both;
+}
+body[data-ds-dark-theme] [class*="heroWorkspaceRow"] {
+  animation: dsb-hero-rise 650ms 100ms var(--dsb-ease) both;
+}
+body[data-ds-dark-theme] [class*="RlGAzG_hero"] {
+  animation: dsb-hero-rise 750ms 180ms var(--dsb-ease) both;
+}
+@keyframes dsb-hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 章节虚线：从左画出来 ---------- */
+body[data-ds-dark-theme] [class*="Hqq-bq_stack"] {
+  position: relative;
+  gap: 8px !important;
+}
+body[data-ds-dark-theme] [class*="Hqq-bq_stack"]::before {
+  content: "";
+  display: block;
+  height: 1px;
+  background: var(--dsb-dash);
+  margin-bottom: 20px;
+  transform-origin: 0 50%;
+  animation: dsb-dash-in 520ms 120ms var(--dsb-ease-out) both;
+}
+@keyframes dsb-dash-in {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* 章节线上缓慢走一道橙光（和生成中的分隔线是同一套语言） */
+body[data-ds-dark-theme] [class*="Hqq-bq_stack"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 18%;
+  height: 5px;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(255, 176, 80, 0.5) 0%,
+    rgba(255, 160, 0, 0.16) 45%,
+    rgba(255, 160, 0, 0) 75%
+  );
+  pointer-events: none;
+  animation: dsb-line-sweep 5.6s 1.4s var(--dsb-ease-out) infinite;
+}
+@keyframes dsb-line-sweep {
+  0% { transform: translateX(-30%); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateX(560%); opacity: 0; }
+}
+
+/* ---------- 标题：从遮罩里升起（参考站的 SplitText mask） ---------- */
+body[data-ds-dark-theme] [class*="Hqq-bq_headline"] {
+  gap: 14px !important;
+}
+body[data-ds-dark-theme] [class*="Hqq-bq_titleGroup"] {
+  align-items: center !important;
+  gap: 14px !important;
+}
+body[data-ds-dark-theme] [class*="Hqq-bq_titleGroup"] > span:first-child {
+  display: inline-block;      /* 行内元素不吃 transform，必须变块 */
+  font-size: 46px !important;
+  line-height: 1.1 !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.024em !important;
+  color: var(--dsb-text-1) !important;
+  animation: dsb-title-in 820ms 160ms var(--dsb-ease) both;
+}
+@keyframes dsb-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    clip-path: inset(0 -8% 100% -8%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 -8% 0 -8%);
+  }
+}
+
+/* ---------- 鲸鱼：缓慢浮游 + 向外发涟漪（对应参考站的实物脉冲） ---------- */
+body[data-ds-dark-theme] [class*="Hqq-bq_fishHitbox"] {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+body[data-ds-dark-theme] [class*="Hqq-bq_fishHitbox"] svg {
+  width: 38px !important;
+  height: 38px !important;
+  animation: dsb-whale-float 6.5s ease-in-out infinite;
+}
+@keyframes dsb-whale-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-2deg); }
+}
+body[data-ds-dark-theme] [class*="Hqq-bq_fishHitbox"]::before,
+body[data-ds-dark-theme] [class*="Hqq-bq_fishHitbox"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border: 1px solid rgba(255, 237, 215, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  animation: dsb-ripple 4s var(--dsb-ease-out) infinite;
+}
+body[data-ds-dark-theme] [class*="Hqq-bq_fishHitbox"]::after {
+  animation-delay: 2s;
+}
+@keyframes dsb-ripple {
+  0% { transform: scale(0.5); opacity: 0; }
+  15% { opacity: 0.5; }
+  100% { transform: scale(4.4); opacity: 0; }
+}
+
+/* ---------- 徽标：最后浮起来 ---------- */
+body[data-ds-dark-theme] [class*="Hqq-bq_previewBadge"] {
+  display: inline-block;
+  background: transparent !important;
+  border: 1px solid var(--dsb-cork) !important;
+  color: var(--dsb-driftwood) !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  letter-spacing: 0.14em !important;
+  line-height: 1.5 !important;
+  padding: 1px 8px 2px !important;
+  height: auto !important;
+  animation: dsb-badge-in 600ms 420ms var(--dsb-ease-out) both;
+}
+@keyframes dsb-badge-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 输入卡在空会话里"呼吸"（没聚焦时才有，聚焦交给橙环） ---------- */
+body[data-ds-dark-theme] [class*="composerHero"] div:has(> div > div > [contenteditable="true"]):not(:focus-within) {
+  animation: dsb-composer-breathe 4.8s ease-in-out infinite;
+}
+@keyframes dsb-composer-breathe {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 160, 0, 0);
+    border-color: var(--dsb-cork);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(255, 160, 0, 0.1);
+    border-color: rgba(220, 80, 0, 0.35);
+  }
+}
+
+/* ---------- 右上角铭牌旁边那颗呼吸的点（参考站 hero 的 dot） ---------- */
+body[data-ds-dark-theme]::before {
+  content: "";
+  position: fixed;
+  top: 96px;
+  right: 9px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--dsb-ember);
+  z-index: 4;
+  pointer-events: none;
+  animation: dsb-dot-blink 2.6s ease-in-out infinite;
+}
+@keyframes dsb-dot-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.18; }
+}
+
+/* 正文行距与字重 */
+body[data-ds-dark-theme] [data-chat-flow] p,
+body[data-ds-dark-theme] [data-chat-flow] li {
+  line-height: 1.75;
+  letter-spacing: 0.002em;
+}
+body[data-ds-dark-theme] [data-chat-flow] h1,
+body[data-ds-dark-theme] [data-chat-flow] h2,
+body[data-ds-dark-theme] [data-chat-flow] h3 {
+  letter-spacing: -0.018em;
+  margin-block: 1.5em 0.6em;
+  color: var(--dsb-text-1);
+}
+/* 字阶：30 / 23 / 19，500 字重 */
+body[data-ds-dark-theme] [data-chat-flow] h1 { font-size: 30px !important; line-height: 1.14 !important; font-weight: 500 !important; }
+body[data-ds-dark-theme] [data-chat-flow] h2 { font-size: 23px !important; line-height: 1.2 !important; font-weight: 500 !important; }
+body[data-ds-dark-theme] [data-chat-flow] h3 { font-size: 19px !important; line-height: 1.26 !important; font-weight: 500 !important; }
+
+/* ============================================================
+ * 用户消息：一个表面 = 一段话 + 它的 footer
+ * ------------------------------------------------------------
+ *   [data-chat-flow-kind="user"]        flex 行，靠右
+ *     └ div (display:contents)          React 包裹层
+ *        └ [class*="userRow"]          卡片本体（唯一的表面）
+ *           ├ [class*="userStack"]    文本容器
+ *           │  └ [class*="bubble"]    文本块（app 自带底色/圆角 → 拆掉）
+ *           └ [class*="actions"]      footer：时间 + 复制
+ * ============================================================ */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] {
+  display: flex;
+  justify-content: flex-end;
+  padding-left: 0 !important;
+  position: relative;
+  margin-top: 34px !important;   /* 给虚线和上一轮的尾巴之间留出呼吸 */
+}
+
+/* 每一轮用户消息之上：一条 2px/2px 虚线，像参考站的章节分隔。
+ * （不做 TURN 编号：聊天列表是虚拟滚动的，CSS counter 只在渲染窗口里自增，
+ *   滚动后会重新计数，编号一定会跳。） */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -17px;
+  height: 1px;
+  background: var(--dsb-dash);
+  pointer-events: none;
+}
+
+/* 卡片：一层薄奶油 + Cork 边，无阴影 */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="userRow"] {
+  background: var(--dsb-lift-2) !important;
+  border: 1px solid var(--dsb-cork) !important;
+  border-radius: 18px !important;
+  max-width: 76% !important;
+  min-width: 120px !important;
+  padding: 10px 14px 7px !important;
+  gap: 4px !important;
+  box-shadow: none !important;
+  transition: background-color 220ms var(--dsb-ease), border-color 220ms var(--dsb-ease);
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="userRow"]:hover {
+  background: var(--dsb-lift-3) !important;
+  border-color: var(--dsb-driftwood) !important;
+}
+
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="userStack"] {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  max-width: 100% !important;
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="bubble"] {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+  color: var(--dsb-text-1) !important;
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+  letter-spacing: 0.002em;
+}
+
+/* 用户消息里的图片：别贴着卡片边 */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="bubble"] img {
+  border-radius: 12px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* footer：卡片右下角的注脚，平时压到 55%，摸到卡片才全亮 */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="actions"] {
+  align-self: flex-end !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  gap: 4px !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  opacity: 0.55;
+  transition: opacity 200ms var(--dsb-ease-out);
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="userRow"]:hover [class*="actions"],
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="actions"]:focus-within {
+  opacity: 1;
+}
+
+/* 时间：等宽数字，漂木色 */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="timeStart"] {
+  color: var(--dsb-meta) !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  padding: 0 8px 0 2px !important;
+  align-self: center;
+}
+
+/* footer 里的图标键：圆形幽灵键 */
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="actions"] button[class*="action"] {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  padding: 3px !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--dsb-meta) !important;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="actions"] button[class*="action"]:hover {
+  background: var(--dsb-lift-2) !important;
+  color: var(--dsb-text-1) !important;
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="user"] [class*="actions"] button[class*="action"]:active {
+  transform: scale(0.92);
+}
+
+/* ---------- 过程 / 工具块：不加盒子，只降噪 ---------- */
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-process"],
+body[data-ds-dark-theme] [data-chat-flow-kind="assistant-step"] {
+  font-size: 13px;
+  color: var(--dsb-text-3);
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+/* 工具调用：一张 Cork 细边的"脚注卡"，不放光、不投影 */
+body[data-ds-dark-theme] [data-chat-flow-kind="tool-call"] {
+  font-size: 13px;
+  color: var(--dsb-text-3);
+  background: transparent;
+  border: 1px solid var(--dsb-cork);
+  border-radius: 12px;
+  padding: 9px 14px !important;
+  box-shadow: none;
+}
+/* 空的占位块直接收掉 */
+body[data-ds-dark-theme] [data-chat-flow-kind]:empty {
+  display: none !important;
+}
+
+/* ---------- 元信息层：折叠头、状态行、助手尾部的时间 ----------
+ * app 默认给它们的是冷灰 rgb(173,178,184)，在暖黑上发蓝；统一换成漂木色微字。 */
+body[data-ds-dark-theme] [data-chat-flow] button[aria-expanded],
+body[data-ds-dark-theme] [data-chat-flow] [data-turn-process] {
+  font-size: 12px !important;
+  letter-spacing: 0.02em;
+  color: var(--dsb-text-3) !important;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] [data-chat-flow] button[aria-expanded]:hover,
+body[data-ds-dark-theme] [data-chat-flow] [data-turn-process]:hover {
+  color: var(--dsb-text-2) !important;
+  background: transparent !important;
+}
+body[data-ds-dark-theme] [data-chat-flow] button[aria-expanded] svg,
+body[data-ds-dark-theme] [data-chat-flow] [data-turn-process] svg {
+  color: var(--dsb-driftwood);
+}
+
+/* 助手那条尾巴（时间 + 复制 / 赞踩 / 重试）：和用户 footer 同一套注脚规格 */
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-tail"] [class*="actions"] {
+  justify-content: flex-end;
+  gap: 4px !important;
+  height: auto !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  opacity: 0.5;
+  transition: opacity 200ms var(--dsb-ease-out);
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-tail"]:hover [class*="actions"],
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-tail"] [class*="actions"]:focus-within {
+  opacity: 1;
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-tail"] [class*="timeStart"] {
+  font-size: 11px !important;
+  line-height: 1 !important;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--dsb-meta) !important;
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-tail"] button[class*="action"] {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  padding: 3px !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--dsb-meta) !important;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] [data-chat-flow-kind="turn-tail"] button[class*="action"]:hover {
+  background: var(--dsb-lift-2) !important;
+  color: var(--dsb-text-1) !important;
+}
+
+/* ---------- 交付物 / 附件卡片（present 出来的文件块） ----------
+ * app 这块读 --deliverable-fill（浅色 #fafafa / 深色 neutral-850），
+ * 皮肤把它换成暖色卡，图标块、文件名、副标题、动作键收进同一套语汇。 */
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class$="_file"] {
+  background: var(--dsb-lift-1) !important;
+  border: 1px solid var(--dsb-cork) !important;
+  border-radius: 12px !important;
+  color: var(--dsb-text-1) !important;
+  transition: background-color 180ms var(--dsb-ease), border-color 180ms var(--dsb-ease);
+}
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class$="_file"]:hover {
+  background: var(--dsb-lift-2) !important;
+  border-color: var(--dsb-driftwood) !important;
+}
+/* 图标块：Bark 底 + 橙字 */
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class*="_fileIcon"] {
+  background: var(--dsb-elevated) !important;
+  border: 1px solid var(--dsb-cork) !important;
+  border-radius: 10px !important;
+  color: var(--dsb-orange) !important;
+  /* 文件类型图标是内联 SVG：主路径吃 currentColor，折角吃 --dsw-static-neutral-400。
+   * 把那个静态灰在这个小方块里改暖，图标才跟卡片一套色。 */
+  --dsw-static-neutral-400: rgba(255, 237, 215, 0.45);
+}
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class*="_fileIcon"] svg {
+  color: var(--dsb-orange) !important;
+}
+/* 右侧那个按钮里放的是系统 app 图标（资源管理器 / 编辑器），不能改色，只压一点饱和度 */
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] img[class*="appIcon"] {
+  filter: saturate(0.75) brightness(0.95);
+}
+/* 文件名 */
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class*="_fileName"] {
+  color: var(--dsb-text-1) !important;
+  font-weight: 500;
+  letter-spacing: 0.002em;
+}
+/* 副标题 / 描述：暖灰，不要发白 */
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class*="_secondaryText"],
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [class*="_description"] {
+  color: rgba(255, 237, 215, 0.5) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.02em;
+}
+/* 右侧动作键（文件夹 / 外链 / 展开）：幽灵态 */
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] button,
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [role="button"] {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--dsb-driftwood) !important;
+}
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] button:hover,
+body[data-ds-dark-theme] [data-chat-flow] [class*="_presented"] [role="button"]:hover {
+  background: var(--dsb-lift-2) !important;
+  color: var(--dsb-text-1) !important;
+}
+
+/* "深度求索中"那条分隔线：2px/2px 虚线（参考站的 o-dashline）
+ * 生成过程中让它"活"起来：虚线以 4px 为周期左移（正好一个虚线单元），
+ * 再加一道橙光扫过 —— 位置动画只动 transform / background-position，不触发布局。 */
+body[data-ds-dark-theme] [class*="runningDivider"] {
+  position: relative;
+  /* 注意：不能用 background 简写加 !important —— !important 会压过动画，
+   * background-position-x 的"走虚线"就动不了。只按形象属性分别覆盖。 */
+  background-image: var(--dsb-dash) !important;
+  background-color: transparent !important;
+  background-repeat: repeat !important;
+  height: 1px !important;
+  animation: dsb-dash-march 0.65s linear infinite;
+}
+body[data-ds-dark-theme] [class*="runningDivider"]::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: 0;
+  width: 16%;
+  background: radial-gradient(
+    55% 45% at 50% 50%,
+    rgba(255, 176, 80, 0.55) 0%,
+    rgba(255, 160, 0, 0.18) 45%,
+    rgba(255, 160, 0, 0) 75%
+  );
+  animation: dsb-light-sweep 2.8s var(--dsb-ease-out) infinite;
+  pointer-events: none;
+}
+@keyframes dsb-dash-march {
+  from { background-position-x: 0; }
+  to { background-position-x: 4px; }
+}
+@keyframes dsb-light-sweep {
+  0% { transform: translateX(-120%); opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { transform: translateX(480%); opacity: 0; }
+}
+/* 运行指示：橙点做"光"，1.6s 呼吸 */
+body[data-ds-dark-theme] [class*="runningWhale"],
+body[data-ds-dark-theme] [class*="runningIcon"] {
+  color: var(--dsb-orange) !important;
+  animation: dsb-breathe 1.6s var(--dsb-ease-out) infinite;
+}
+/* 运行文字：微标签字号，别和正文抢 */
+body[data-ds-dark-theme] [class*="runningText"] {
+  font-size: 12px !important;
+  letter-spacing: 0.02em;
+  color: var(--dsb-text-3) !important;
+}
+@keyframes dsb-breathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+/* ---------- 输入卡：一层表面，焦点才亮 ---------- */
+/* 直接包着可编辑区的这层只负责布局，不许有外观 */
+body[data-ds-dark-theme] div:has(> [contenteditable="true"]) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+/* 最外层卡片：画布上一档，Cork 细边，无阴影 */
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) {
+  background: #1a1008 !important;
+  border: 1px solid var(--dsb-cork) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  transition: border-color 220ms var(--dsb-ease), box-shadow 220ms var(--dsb-ease);
+}
+/* 焦点：唯一的橙光（描一圈，不外扩成大光斑） */
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]):focus-within {
+  border-color: rgba(220, 80, 0, 0.62) !important;
+  box-shadow: 0 0 0 1px rgba(220, 80, 0, 0.4), 0 0 16px rgba(255, 160, 0, 0.12) !important;
+}
+body[data-ds-dark-theme] [contenteditable="true"] {
+  caret-color: var(--dsb-ember);
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] [contenteditable="true"]::placeholder {
+  color: var(--dsb-driftwood);
+}
+/* 这个 app 的占位符是独立 div（不是 ::placeholder），一起按漂木色处理 */
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) [class*="placeholder"] {
+  color: var(--dsb-driftwood) !important;
+}
+/* 输入卡里的下拉箭头 / 档位文字：app 给的是冷灰 rgb(129,133,140) */
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) [class*="chevron"],
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) [class*="trigger"] {
+  color: var(--dsb-text-2) !important;
+}
+
+/* ---------- 按钮：一个实心（Bark），其余幽灵 ---------- */
+body[data-ds-dark-theme] button {
+  box-shadow: none;
+}
+body[data-ds-dark-theme] button:hover {
+  background: var(--dsb-lift-1);
+}
+body[data-ds-dark-theme] button:active {
+  transform: scale(0.97);
+}
+
+/* 发送 / 停止：全页唯一的实心面（#382416 + 奶油字），不放光 */
+body[data-ds-dark-theme] button[class*="_primary"],
+body[data-ds-dark-theme] button[aria-label^="发送"],
+body[data-ds-dark-theme] button[aria-label^="停止"] {
+  background: var(--dsb-elevated) !important;
+  color: var(--dsb-text-1) !important;
+  border: 1px solid var(--dsb-driftwood) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] button[class*="_primary"]:hover,
+body[data-ds-dark-theme] button[aria-label^="发送"]:hover,
+body[data-ds-dark-theme] button[aria-label^="停止"]:hover {
+  background: var(--dsb-elevated-hi) !important;
+  border-color: var(--dsb-text-2) !important;
+}
+
+/* 访问模式 / 模型 / 加号：幽灵胶囊，hover 才亮 */
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) button[aria-label^="访问模式"],
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) button[aria-label^="选择模型"],
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) button[aria-label^="添加文件"] {
+  background: transparent !important;
+  color: var(--dsb-text-2) !important;
+  border: 1px solid var(--dsb-cork) !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) button[aria-label^="访问模式"]:hover,
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) button[aria-label^="选择模型"]:hover,
+body[data-ds-dark-theme] div:has(> div > div > [contenteditable="true"]) button[aria-label^="添加文件"]:hover {
+  background: var(--dsb-lift-2) !important;
+  border-color: var(--dsb-driftwood) !important;
+  color: var(--dsb-text-1) !important;
+}
+
+/* ---------- 滚动条、选中色 ---------- */
+body[data-ds-dark-theme] ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+body[data-ds-dark-theme] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 237, 215, 0.14);
+  border-radius: 999px;
+}
+body[data-ds-dark-theme] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 237, 215, 0.28);
+}
+body[data-ds-dark-theme] ::selection {
+  background: rgba(220, 80, 0, 0.3);
+}
+
+/* ---------- 右上角竖排铭牌：参考站的 "ORYZO 1-MODEL" ---------- */
+body[data-ds-dark-theme]::after {
+  content: "DSH-1 · HARNESS";
+  position: fixed;
+  top: 104px;
+  right: 0;
+  z-index: 5;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  padding: 14px 5px;
+  background: var(--dsb-text-1);
+  color: var(--dsb-canvas);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  border-radius: 8px 0 0 8px;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+/* ---------- 动效预算：只做"入场"，由滚动驱动（不需要 JS） ---------- */
+@supports (animation-timeline: view()) {
+  body[data-ds-dark-theme] [data-chat-flow-kind="user"] {
+    animation: dsb-turn-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 55%;
+  }
+}
+@keyframes dsb-turn-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 滚动进度：会话顶部一条 1px 橙线，随滚动从左长到右 ----------
+ * 用命名 scroll 时间线：把对话滚动容器（[class*="scrollBody"]，全页只有一个）
+ * 命名成 --dsb-chat，再让对话列顶部的 sticky 伪元素去消费它。
+ * 线本身是 1px，靠 scaleX 生长，全程只动合成层。 */
+@supports (animation-timeline: scroll()) {
+  body[data-ds-dark-theme] [class*="scrollBody"] {
+    scroll-timeline-name: --dsb-chat;
+    scroll-timeline-axis: block;
+  }
+  body[data-ds-dark-theme] [data-chat-flow]::before {
+    content: "";
+    position: sticky;
+    top: 0;
+    z-index: 3;           /* 它是首个子元素，不加 z-index 会被后面的正文盖住 */
+    display: block;
+    height: 1px;
+    margin-bottom: -1px;
+    background: linear-gradient(90deg, var(--dsb-orange), var(--dsb-ember));
+    transform-origin: 0 50%;
+    animation: dsb-progress linear both;
+    animation-timeline: --dsb-chat;
+    pointer-events: none;
+  }
+}
+@keyframes dsb-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ---------- 让动效有底线：系统要求减少动效就全关 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  body[data-ds-dark-theme] *,
+  body[data-ds-dark-theme] *::before,
+  body[data-ds-dark-theme] *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- 侧栏工作区：选中行/容器圆角 ----------
+ * 树行本来就是"选中即抬高"的一块面，直角会跟 18px 的消息卡打架，
+ * 这里统一 10px；子层继承，避免内层背景把圆角吃掉。 */
+body[data-ds-dark-theme] [role="treeitem"],
+body[data-ds-dark-theme] [role="treeitem"] > *,
+body[data-ds-dark-theme] [role="treeitem"] > * > *,
+body[data-ds-dark-theme] [class*="treeNode"],
+body[data-ds-dark-theme] [class*="treeRow"],
+body[data-ds-dark-theme] [class*="workspaceRow"] {
+  border-radius: 10px !important;
+  corner-shape: round !important;
+}
+body[data-ds-dark-theme] [role="treeitem"] {
+  overflow: hidden !important;
+}
+/* 工作区标题那一行（放大镜/筛选/新建）也跟着圆 */
+body[data-ds-dark-theme] [class*="workspaceHeader"],
+body[data-ds-dark-theme] [class*="sectionHeader"] {
+  border-radius: 10px !important;
+}
+/* ---------- 侧栏行：tag.js 按结构标出来的选中行 ---------- */
+body[data-ds-dark-theme] [data-dsh-row] {
+  border-radius: 10px !important;
+  corner-shape: round !important;
+}
+body[data-ds-dark-theme] [data-dsh-row] > * {
+  border-radius: inherit !important;
+}
+/* ---------- 侧栏面板：和工作区外面同一底色 ----------
+ * 不去猜"工作区面板"叫什么，直接让它透明，露出侧栏自身颜色。 */
+body[data-ds-dark-theme] [data-dsh-panel] {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+/* ---------- 空态遮罩层：不透明底，盖住 app 自己的空态 ---------- */
+body[data-ds-dark-theme] #dsh-oryzo-stage .vo-paper {
+  position: absolute;
+  inset: 0;
+  background: #100904;
+  transition: opacity .6s ease;
+}
+body[data-ds-dark-theme] #dsh-oryzo-stage[data-state="open"] .vo-paper {
+  opacity: 0;
+}
+
+/* ---------- 结构性隐藏：输入卡之外的空态内容 ---------- */
+body[data-ds-dark-theme] [data-dsh-hide] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

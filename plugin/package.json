@@ -1,0 +1,19 @@
+{
+  "name": "dsh-plugin-oryzo",
+  "version": "2.2.13",
+  "private": true,
+  "type": "module",
+  "description": "ORYZO 合并版：暗/亮两套皮肤 + 空态舞台 + 片头 + 音效，右下角切换",
+  "icon": "./icon.svg",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "files": ["client.js", "index.js", "cordis.patch.yml", "icon.svg", "locale/*.json", "src", "tools"],
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "client": { "platform": "web", "immediately": true }
+  }
+}

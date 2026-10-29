@@ -1,0 +1,235 @@
+/* ============================================================================
+ * ORYZO 空态舞台 · 样式
+ * 作用域：#dsh-oryzo-stage（我们自己的覆盖层）+ html[data-dsb-stage]
+ * 约定：这一层盖在聊天列上，输入卡在它下面；idle 时把 app 自带的标题藏掉、
+ *       输入卡压下去；open 时反过来。
+ * ==========================================================================*/
+
+/* ---------- 让位：藏掉 app 自带的空态标题，压住输入卡 ---------- */
+html[data-dsb-stage] [class*="heroWorkspaceRow"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html[data-dsb-stage] [class*="Hqq-bq_root"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html[data-dsb-stage="idle"] div:has(> div > div > [contenteditable="true"]) {
+  opacity: 0 !important;
+  transform: translateY(14px) !important;
+  pointer-events: none !important;
+}
+html[data-dsb-stage] div:has(> div > div > [contenteditable="true"]) {
+  transition: opacity 560ms cubic-bezier(.16, 1, .3, 1),
+    transform 700ms cubic-bezier(.16, 1, .3, 1), border-color 220ms, box-shadow 220ms;
+}
+html[data-dsb-stage="opening"] div:has(> div > div > [contenteditable="true"]) {
+  animation: vo-composer-bloom 900ms 120ms cubic-bezier(.16, 1, .3, 1) both;
+}
+@keyframes vo-composer-bloom {
+  0% { opacity: 0; filter: blur(14px); transform: translateY(18px) scale(.965); }
+  100% { opacity: 1; filter: blur(0); transform: none; }
+}
+html[data-dsb-stage="open"] div:has(> div > div > [contenteditable="true"]) {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+/* ---------- 舞台本体 ---------- */
+#dsh-oryzo-stage {
+  position: fixed;
+  z-index: 30;
+  overflow: hidden;
+  isolation: isolate;
+  color: #ffedd7;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  pointer-events: none;
+}
+#dsh-oryzo-stage * { box-sizing: border-box; }
+
+/* app 的 corner-shape.css 用 `*` 给所有元素套了 corner-shape: superellipse(1.5)，
+ * 圆环 / 内核进到 app 里就变成"圆角方"（原型是独立页面，所以看不出来）。
+ * 舞台里全部改回正圆。 */
+#dsh-oryzo-stage,
+#dsh-oryzo-stage *,
+#dsh-oryzo-stage *::before,
+#dsh-oryzo-stage *::after {
+  corner-shape: round;
+}
+
+.vo-glow {
+  position: absolute; left: 50%; top: 54%; width: 1120px; height: 800px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(220, 80, 0, .18), rgba(220, 80, 0, .05) 44%, transparent 70%);
+  filter: blur(10px);
+  transition: opacity .9s, transform 1.2s;
+}
+.vo-field {
+  position: absolute; left: 50%; top: 50%; width: 1600px; height: 1600px;
+  transform: translate(-50%, -50%);
+  background: repeating-radial-gradient(circle at 50% 50%, rgba(255, 237, 215, .055) 0 1px, transparent 1px 56px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 18%, transparent 70%);
+  mask-image: radial-gradient(closest-side, #000 18%, transparent 70%);
+  transition: opacity .9s;
+}
+.vo-fx { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity 1s; }
+.vo-grain {
+  position: absolute; inset: 0; opacity: .05; mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.6'/></svg>");
+}
+.vo-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(130% 100% at 50% 50%, transparent 56%, rgba(0, 0, 0, .38) 100%);
+}
+
+/* ---------- 环形标志 ---------- */
+.vo-mark {
+  position: absolute; left: 50%; top: 40%; width: 240px; height: 240px;
+  transform: translate(-50%, -50%);
+  transition: top .95s cubic-bezier(.16, 1, .3, 1), transform .95s cubic-bezier(.16, 1, .3, 1), opacity .55s ease;
+}
+.vo-mark > span { position: absolute; border-radius: 50%; display: block; }
+
+.vo-orbit { inset: -16px; border: 1px dashed rgba(255, 237, 215, .15); animation: vo-spin 54s linear infinite; }
+
+.vo-ring-a {
+  inset: 0;
+  background: conic-gradient(from 0deg,
+    rgba(255, 237, 215, 0) 0deg, rgba(255, 170, 60, .55) 48deg, #ffedd7 118deg,
+    rgba(255, 170, 60, .22) 188deg, rgba(255, 237, 215, 0) 258deg, rgba(255, 237, 215, 0) 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 3.2px), #000 calc(100% - 3px));
+  mask: radial-gradient(closest-side, transparent calc(100% - 2.4px), #000 calc(100% - 2.2px));
+  animation: vo-spin 8.5s linear infinite;
+  filter: drop-shadow(0 0 9px rgba(255, 160, 0, .32));
+}
+/* 第二道环压在同一个半径上、反向转：两条亮弧互相追，弧就有了厚度和"刷亮"的质感 */
+.vo-ring-b {
+  inset: 0;
+  background: conic-gradient(from 180deg,
+    rgba(255, 237, 215, 0) 0deg, rgba(255, 237, 215, .8) 70deg, rgba(255, 237, 215, 0) 148deg,
+    rgba(255, 237, 215, 0) 296deg, rgba(255, 170, 60, .45) 338deg, rgba(255, 237, 215, 0) 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 3.4px), #000 calc(100% - 3.2px));
+  mask: radial-gradient(closest-side, transparent calc(100% - 2.6px), #000 calc(100% - 2.4px));
+  animation: vo-spin 13s linear infinite reverse;
+  opacity: .72;
+}
+.vo-ring-c { inset: 52px; border: 1px solid rgba(255, 237, 215, .14); animation: vo-spin 30s linear infinite; }
+.vo-ring-c::after {
+  content: ""; position: absolute; top: -2px; left: 50%; width: 4px; height: 4px; margin-left: -2px;
+  border-radius: 50%; background: rgba(255, 237, 215, .8); box-shadow: 0 0 8px 1px rgba(255, 237, 215, .4);
+}
+/* 内核：铺满环内的大团暖光（就是原型里"意外"好看的那颗球） */
+.vo-core {
+  inset: 8px;
+  background:
+    radial-gradient(50% 50% at 50% 50%, rgba(255, 220, 180, .58) 0%, rgba(255, 180, 90, .3) 40%, rgba(255, 140, 0, .12) 64%, transparent 82%);
+  filter: blur(5px);
+  animation: vo-breathe 6.5s ease-in-out infinite;
+}
+.vo-sat-a { inset: -16px; animation: vo-spin 16s linear infinite; }
+.vo-sat-a::after {
+  content: ""; position: absolute; top: -3px; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+  border-radius: 50%; background: #ffa000; box-shadow: 0 0 12px 2px rgba(255, 160, 0, .55);
+}
+.vo-sat-b { inset: 42px; animation: vo-spin 9s linear infinite reverse; }
+.vo-sat-b::after {
+  content: ""; position: absolute; bottom: -2.5px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px;
+  border-radius: 50%; background: #ffedd7; box-shadow: 0 0 10px 1px rgba(255, 237, 215, .5);
+}
+
+@keyframes vo-spin { to { transform: rotate(360deg); } }
+@keyframes vo-breathe { 0%, 100% { opacity: .55; transform: scale(.96); } 50% { opacity: 1; transform: scale(1.04); } }
+
+/* ---------- 词标 ---------- */
+.vo-title {
+  position: absolute; left: 50%; top: 61%; transform: translate(-50%, 0);
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  transition: opacity .45s, transform .6s cubic-bezier(.16, 1, .3, 1), filter .45s;
+}
+.vo-word {
+  font-size: 46px; font-weight: 500; letter-spacing: .26em; text-indent: .26em; line-height: 1;
+  transition: letter-spacing .8s cubic-bezier(.16, 1, .3, 1);
+}
+.vo-rule { width: 246px; height: 1px; background: repeating-linear-gradient(90deg, rgba(255, 237, 215, .42) 0 2px, transparent 2px 4px); }
+.vo-meta { font-size: 9.5px; letter-spacing: .34em; color: #6c5f51; text-indent: .34em; }
+.vo-hint {
+  display: flex; align-items: center; gap: 10px; margin-top: 4px;
+  font-size: 9.5px; letter-spacing: .34em; color: rgba(255, 237, 215, .44); text-indent: .34em;
+  animation: vo-hint-pulse 3.4s ease-in-out infinite;
+}
+.vo-hint i { width: 5px; height: 5px; border-radius: 50%; background: #ffa000; display: block; animation: vo-blink 2.6s ease-in-out infinite; }
+@keyframes vo-hint-pulse { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+@keyframes vo-blink { 0%, 100% { opacity: 1; } 50% { opacity: .18; } }
+
+/* ---------- 开场后的小徽标（悬在输入卡上方一点） ---------- */
+.vo-emblem {
+  position: absolute;
+  left: var(--vo-emblem-x, 50%);
+  top: var(--vo-emblem-y, 50%);
+  width: 58px; height: 58px;
+  transform: translate(-50%, -50%) scale(.8);
+  opacity: 0; border-radius: 50%;
+  transition: opacity .7s .3s cubic-bezier(.16, 1, .3, 1), transform .7s .3s cubic-bezier(.16, 1, .3, 1);
+}
+.vo-emblem > span { position: absolute; border-radius: 50%; }
+.vo-e-bg {
+  inset: -14px;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 12, 6, .55) 30%, rgba(20, 12, 6, 0) 70%);
+}
+.vo-e-ring {
+  inset: 0;
+  background: conic-gradient(from 0deg,
+    rgba(255, 237, 215, .05) 0deg, rgba(255, 170, 60, .85) 55deg, #fff3e2 125deg,
+    rgba(255, 170, 60, .45) 195deg, rgba(255, 237, 215, .05) 265deg, rgba(255, 237, 215, .05) 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 2.4px), #000 calc(100% - 2.2px));
+  mask: radial-gradient(closest-side, transparent calc(100% - 2.4px), #000 calc(100% - 2.2px));
+  animation: vo-spin 6.5s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 160, 0, .55));
+}
+.vo-e-core {
+  inset: 20px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 214, 168, .75), rgba(255, 160, 0, .2) 55%, transparent 78%);
+  animation: vo-breathe 5s ease-in-out infinite;
+}
+
+/* ---------- 命中层：整块画面都能点 ---------- */
+.vo-hit {
+  position: absolute; inset: 0;
+  pointer-events: auto; cursor: pointer;
+  outline: none;
+}
+
+/* ---------- 状态机 ---------- */
+#dsh-oryzo-stage[data-state="opening"] .vo-hit,
+#dsh-oryzo-stage[data-state="open"] .vo-hit { display: none; }
+
+#dsh-oryzo-stage[data-state="opening"] .vo-title { opacity: 0; filter: blur(6px); transform: translate(-50%, 14px); }
+#dsh-oryzo-stage[data-state="opening"] .vo-word { letter-spacing: .33em; }
+#dsh-oryzo-stage[data-state="opening"] .vo-mark { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+#dsh-oryzo-stage[data-state="open"] .vo-mark { opacity: 0; visibility: hidden; }
+#dsh-oryzo-stage[data-state="open"] .vo-title { opacity: 0; visibility: hidden; }
+#dsh-oryzo-stage[data-state="open"] .vo-emblem { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+/* 打开之后：场景降为背景，留 25%，继续跟鼠标互动 */
+#dsh-oryzo-stage[data-state="open"] .vo-glow { opacity: .25; transform: translate(-50%, -50%) scale(1.08); }
+#dsh-oryzo-stage[data-state="open"] .vo-field { opacity: .25; }
+#dsh-oryzo-stage[data-state="open"] .vo-fx { opacity: .25; }
+#dsh-oryzo-stage[data-state="open"] .vo-vignette { opacity: .8; }
+
+/* ---------- 降级：系统要求减少动效 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #dsh-oryzo-stage .vo-orbit,
+  #dsh-oryzo-stage .vo-ring-a,
+  #dsh-oryzo-stage .vo-ring-b,
+  #dsh-oryzo-stage .vo-ring-c,
+  #dsh-oryzo-stage .vo-core,
+  #dsh-oryzo-stage .vo-sat-a,
+  #dsh-oryzo-stage .vo-sat-b,
+  #dsh-oryzo-stage .vo-e-ring,
+  #dsh-oryzo-stage .vo-e-core,
+  #dsh-oryzo-stage .vo-hint { animation: none !important; }
+}

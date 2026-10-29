@@ -1,0 +1,60 @@
+/* ============================================================================
+ * ORYZO · 控制条样式（两套主题共用一套几何）
+ * ==========================================================================*/
+#dsh-oryzo-control {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2147483400;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: opacity .2s, transform .2s;
+  corner-shape: round;
+}
+#dsh-oryzo-control * { corner-shape: round; }
+#dsh-oryzo-control:hover { transform: translateY(-1px); }
+
+#dsh-oryzo-control .or-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: .04em;
+  line-height: 1;
+  transition: background .16s, color .16s;
+}
+#dsh-oryzo-control .or-ico { font-size: 12px; line-height: 1; }
+#dsh-oryzo-control .or-btn.is-off { opacity: .45; }
+
+/* 暗色 */
+html[data-dsh-theme="dark"] #dsh-oryzo-control {
+  background: rgba(26, 16, 8, .82);
+  border: 1px solid rgba(255, 237, 215, .14);
+  backdrop-filter: blur(8px);
+}
+html[data-dsh-theme="dark"] #dsh-oryzo-control .or-btn { color: rgba(255, 237, 215, .72); }
+html[data-dsh-theme="dark"] #dsh-oryzo-control .or-btn:hover { background: rgba(255, 237, 215, .08); color: #ffedd7; }
+
+/* 亮色 */
+html[data-dsh-theme="light"] #dsh-oryzo-control {
+  background: rgba(255, 250, 242, .88);
+  border: 1px solid rgba(36, 26, 18, .12);
+  box-shadow: 0 2px 4px rgba(72, 50, 28, .06), 0 14px 30px -14px rgba(72, 50, 28, .22);
+  backdrop-filter: blur(8px);
+}
+html[data-dsh-theme="light"] #dsh-oryzo-control .or-btn { color: rgba(36, 26, 18, .62); }
+html[data-dsh-theme="light"] #dsh-oryzo-control .or-btn:hover { background: rgba(36, 26, 18, .06); color: #241a12; }
+
+@media (prefers-reduced-motion: reduce) {
+  #dsh-oryzo-control { transition: none; }
+}

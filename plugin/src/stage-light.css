@@ -1,0 +1,208 @@
+/* ============================================================================
+ * ORYZO DAY · 空态舞台
+ * 作用域：#dsh-oryzo-light-stage + html[data-dsb-light-stage]
+ * 语言：暖纸、墨、琥珀；零阴影；虚线 2px/2px；微标签 .32em 字距。
+ * ==========================================================================*/
+
+/* 让位：藏掉 app 自带的空态标题与工作区行，压住输入卡 */
+html[data-dsb-light-stage] [class*="Hqq-bq_root"],
+html[data-dsb-light-stage] [class*="heroWorkspaceRow"] {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html[data-dsb-light-stage="idle"] div:has(> div > div > [contenteditable="true"]) {
+  opacity: 0 !important;
+  transform: translateY(14px) !important;
+  pointer-events: none !important;
+}
+html[data-dsb-light-stage] div:has(> div > div > [contenteditable="true"]) {
+  transition: opacity 560ms cubic-bezier(.16, 1, .3, 1),
+    transform 700ms cubic-bezier(.16, 1, .3, 1), border-color 220ms, box-shadow 220ms;
+}
+html[data-dsb-light-stage="open"] div:has(> div > div > [contenteditable="true"]) {
+  animation: vo-light-bloom 900ms 120ms cubic-bezier(.16, 1, .3, 1) both;
+}
+@keyframes vo-light-bloom {
+  0% { opacity: 0; filter: blur(10px); transform: translateY(16px) scale(.97); }
+  100% { opacity: 1; filter: blur(0); transform: none; }
+}
+html[data-dsb-light-stage="open"] div:has(> div > div > [contenteditable="true"]) {
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+/* ---------- 舞台本体 ---------- */
+#dsh-oryzo-light-stage {
+  position: fixed;
+  z-index: 2147482000;   /* 提到 app 自己的层之上：30 在真实 DOM 里会被聊天区盖住 */
+  overflow: hidden;
+  isolation: isolate;
+  color: #241a12;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  pointer-events: none;
+}
+#dsh-oryzo-light-stage * { box-sizing: border-box; }
+/* app 的 corner-shape 会把圆环压成圆角方，这里改回正圆 */
+#dsh-oryzo-light-stage,
+#dsh-oryzo-light-stage *,
+#dsh-oryzo-light-stage *::before,
+#dsh-oryzo-light-stage *::after {
+  corner-shape: round;
+}
+
+.lv-halo {
+  position: absolute; left: 50%; top: 44%; width: 900px; height: 700px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(224, 138, 46, .16), rgba(224, 138, 46, .05) 45%, transparent 72%);
+  filter: blur(8px);
+  transition: opacity .9s, transform 1.2s;
+}
+.lv-field {
+  position: absolute; left: 50%; top: 50%; width: 1500px; height: 1500px;
+  transform: translate(-50%, -50%);
+  background: repeating-radial-gradient(circle at 50% 50%, rgba(36, 26, 18, .055) 0 1px, transparent 1px 54px);
+  -webkit-mask-image: radial-gradient(closest-side, #000 16%, transparent 68%);
+          mask-image: radial-gradient(closest-side, #000 16%, transparent 68%);
+  transition: opacity .9s;
+}
+.lv-fx { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity 1s; }
+.lv-grain {
+  position: absolute; inset: 0; opacity: .055; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>");
+}
+.lv-warm {
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 92% at 50% 44%, transparent 46%, rgba(150, 96, 40, .10) 100%);
+}
+
+/* ---------- 环形标志 ---------- */
+.lv-mark {
+  position: absolute; left: 50%; top: 40%; width: 240px; height: 240px;
+  transform: translate(-50%, -50%);
+  transition: top .95s cubic-bezier(.16, 1, .3, 1), transform .95s cubic-bezier(.16, 1, .3, 1), opacity .55s ease;
+}
+.lv-mark > span { position: absolute; border-radius: 50%; display: block; }
+.lv-ring-base { inset: 0; border: 2px solid rgba(74, 52, 34, .26); }
+.lv-ring-arc {
+  inset: 0;
+  background: conic-gradient(from 210deg,
+    rgba(36, 26, 18, 0) 0deg, rgba(184, 74, 12, .35) 40deg, #e08a2e 96deg,
+    #b84a0c 132deg, rgba(36, 26, 18, .18) 196deg, rgba(36, 26, 18, 0) 268deg,
+    rgba(36, 26, 18, 0) 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 3.6px), #000 calc(100% - 3.4px));
+          mask: radial-gradient(closest-side, transparent calc(100% - 3.6px), #000 calc(100% - 3.4px));
+  animation: lv-spin 9s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(224, 138, 46, .30));
+}
+.lv-ring-in { inset: 58px; border: 1px dashed rgba(36, 26, 18, .24); animation: lv-spin 34s linear infinite reverse; }
+.lv-core {
+  inset: 34px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(224, 138, 46, .32) 0%, rgba(224, 138, 46, .10) 46%, transparent 74%);
+  filter: blur(7px);
+  animation: lv-breathe 6.5s ease-in-out infinite;
+}
+.lv-sat-a { inset: -14px; animation: lv-spin 17s linear infinite; }
+.lv-sat-a::after {
+  content: ""; position: absolute; top: -3px; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+  border-radius: 50%; background: #c0580f; box-shadow: 0 0 0 3px rgba(224, 138, 46, .16);
+}
+.lv-sat-b { inset: 58px; animation: lv-spin 11s linear infinite reverse; }
+.lv-sat-b::after {
+  content: ""; position: absolute; bottom: -2.5px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px;
+  border-radius: 50%; background: #241a12; opacity: .55;
+}
+@keyframes lv-spin { to { transform: rotate(360deg); } }
+@keyframes lv-breathe { 0%, 100% { opacity: .55; transform: scale(.97); } 50% { opacity: 1; transform: scale(1.03); } }
+
+/* ---------- 词标 ---------- */
+.lv-word {
+  position: absolute; left: 50%; top: 63%; transform: translate(-50%, 0);
+  display: flex; flex-direction: column; align-items: center; gap: 13px; text-align: center;
+  transition: opacity .45s, transform .6s cubic-bezier(.16, 1, .3, 1), filter .45s;
+}
+.lv-word .w {
+  font-size: 46px; font-weight: 500; letter-spacing: .28em; text-indent: .28em;
+  color: #241a12; line-height: 1;
+  transition: letter-spacing .8s cubic-bezier(.16, 1, .3, 1);
+}
+.lv-word .rule {
+  width: 250px; height: 1px;
+  background: repeating-linear-gradient(90deg, rgba(36, 26, 18, .30) 0 2px, transparent 2px 4px);
+}
+.lv-word .meta { font-size: 9.5px; letter-spacing: .34em; text-indent: .34em; color: #8c7a64; }
+.lv-word .hint {
+  margin-top: 6px; display: flex; align-items: center; gap: 10px;
+  font-size: 9.5px; letter-spacing: .32em; text-indent: .32em; color: #8c7a64;
+  animation: lv-hint 3.4s ease-in-out infinite;
+}
+.lv-word .hint i { width: 5px; height: 5px; border-radius: 50%; background: #e08a2e; display: block; }
+@keyframes lv-hint { 0%, 100% { opacity: .6; } 50% { opacity: 1; } }
+
+/* ---------- 开场后的小徽标（悬在输入卡上方） ---------- */
+.lv-emblem {
+  position: absolute;
+  left: var(--lv-emblem-x, 50%);
+  top: var(--lv-emblem-y, 50%);
+  width: 58px; height: 58px;
+  transform: translate(-50%, -50%) scale(.8);
+  opacity: 0; border-radius: 50%;
+  transition: opacity .7s .3s cubic-bezier(.16, 1, .3, 1), transform .7s .3s cubic-bezier(.16, 1, .3, 1);
+}
+.lv-emblem > span { position: absolute; border-radius: 50%; }
+.lv-e-ring {
+  inset: 0;
+  background: conic-gradient(from 0deg,
+    rgba(36, 26, 18, .10) 0deg, rgba(184, 74, 12, .55) 55deg, #e08a2e 125deg,
+    rgba(184, 74, 12, .30) 195deg, rgba(36, 26, 18, .10) 265deg, rgba(36, 26, 18, .10) 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent calc(100% - 2.6px), #000 calc(100% - 2.4px));
+          mask: radial-gradient(closest-side, transparent calc(100% - 2.6px), #000 calc(100% - 2.4px));
+  animation: lv-spin 6.5s linear infinite;
+}
+.lv-e-core {
+  inset: 19px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(224, 138, 46, .55), rgba(224, 138, 46, .12) 58%, transparent 80%);
+  animation: lv-breathe 5s ease-in-out infinite;
+}
+
+/* ---------- 命中层 ---------- */
+.lv-hit { position: absolute; inset: 0; pointer-events: auto; cursor: pointer; outline: none; }
+
+/* ---------- 状态机 ---------- */
+#dsh-oryzo-light-stage[data-state="opening"] .lv-hit,
+#dsh-oryzo-light-stage[data-state="open"] .lv-hit { display: none; }
+
+#dsh-oryzo-light-stage[data-state="opening"] .lv-word { opacity: 0; filter: blur(6px); transform: translate(-50%, 14px); }
+#dsh-oryzo-light-stage[data-state="opening"] .lv-word .w { letter-spacing: .33em; }
+#dsh-oryzo-light-stage[data-state="opening"] .lv-mark { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+#dsh-oryzo-light-stage[data-state="open"] .lv-mark { opacity: 0; visibility: hidden; }
+#dsh-oryzo-light-stage[data-state="open"] .lv-word { opacity: 0; visibility: hidden; }
+#dsh-oryzo-light-stage[data-state="open"] .lv-emblem { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+#dsh-oryzo-light-stage[data-state="open"] .lv-halo { opacity: .28; transform: translate(-50%, -50%) scale(1.08); }
+#dsh-oryzo-light-stage[data-state="open"] .lv-field { opacity: .28; }
+#dsh-oryzo-light-stage[data-state="open"] .lv-fx { opacity: .28; }
+
+@media (prefers-reduced-motion: reduce) {
+  #dsh-oryzo-light-stage .lv-ring-arc,
+  #dsh-oryzo-light-stage .lv-ring-in,
+  #dsh-oryzo-light-stage .lv-core,
+  #dsh-oryzo-light-stage .lv-sat-a,
+  #dsh-oryzo-light-stage .lv-sat-b,
+  #dsh-oryzo-light-stage .lv-e-ring,
+  #dsh-oryzo-light-stage .lv-e-core,
+  #dsh-oryzo-light-stage .lv-word .hint { animation: none !important; }
+}
+
+/* ---------- 纸面底：把 app 自带的空态整块盖住 ----------
+ * 不依赖 app 里的类名去"隐藏标题"，直接铺一张不透明的纸。
+ * 开场时这张纸淡出，露出下面的输入卡。 */
+.lv-paper {
+  position: absolute;
+  inset: 0;
+  background: #f5ede2;
+  transition: opacity .6s ease;
+}
+#dsh-oryzo-light-stage[data-state="open"] .lv-paper { opacity: 0; }

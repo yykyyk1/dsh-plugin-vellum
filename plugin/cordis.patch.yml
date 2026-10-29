@@ -1,0 +1,5 @@
+# ORYZO 合并版：插一行
+- insert:
+    - id: oryzo
+      name: dsh-plugin-oryzo
+      config: {}

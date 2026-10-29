@@ -1,0 +1,124 @@
+/* ============================================================================
+ * ORYZO · 片头（一个实现，两种主题）
+ *   暗：墨线描完 → 填成奶油实体 → 琥珀轮廓光扫过
+ *   亮：只留线稿
+ * ==========================================================================*/
+#dsh-oryzo-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483600;
+  overflow: hidden;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  corner-shape: round;
+}
+#dsh-oryzo-splash * { box-sizing: border-box; corner-shape: round; }
+
+html[data-dsh-theme="dark"] #dsh-oryzo-splash {
+  background: #100904;
+  color: #ffedd7;
+  --sp-ink: #ffedd7;
+  --sp-fill: #ffedd7;
+  --sp-amber: #ffa000;
+  --sp-kick: rgba(255, 237, 215, .42);
+  --sp-sub: rgba(255, 237, 215, .55);
+  --sp-skip: rgba(255, 237, 215, .35);
+  --sp-glow: rgba(255, 160, 0, .16);
+}
+html[data-dsh-theme="light"] #dsh-oryzo-splash {
+  background: #f5ede2;
+  color: #241a12;
+  --sp-ink: #241a12;
+  --sp-fill: transparent;
+  --sp-amber: #e08a2e;
+  --sp-kick: #8c7a64;
+  --sp-sub: #8c7a64;
+  --sp-skip: #a1907a;
+  --sp-glow: rgba(224, 138, 46, .16);
+}
+
+.sp-grain {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: .05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='.55'/></svg>");
+}
+.sp-glow {
+  position: absolute; left: 50%; top: 46%; width: 900px; height: 700px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(50% 50% at 50% 50%, var(--sp-glow), transparent 70%);
+  filter: blur(10px);
+}
+.sp-fx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.sp-whale {
+  position: absolute; left: 50%; top: 46%; width: 392px; height: 292px;
+  transform: translate(-50%, -50%);
+}
+.sp-whale svg { width: 100%; height: 100%; overflow: visible; display: block; }
+.sp-line { fill: none; stroke: var(--sp-ink); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; }
+.sp-fill { fill: var(--sp-fill); opacity: 0; }
+.sp-rim { fill: none; stroke: var(--sp-amber); stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; opacity: 0; }
+
+.sp-cap {
+  position: absolute; left: 50%; top: calc(50% + 152px); transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center;
+  opacity: 0;
+}
+.sp-kick { font-size: 10px; letter-spacing: .42em; text-indent: .42em; color: var(--sp-kick); }
+.sp-wm { font-size: 62px; font-weight: 300; letter-spacing: .02em; line-height: 1; color: var(--sp-ink); }
+.sp-sub { display: flex; align-items: center; gap: 12px; font-size: 10.5px; letter-spacing: .28em; color: var(--sp-sub); }
+.sp-sub .s { width: 3px; height: 3px; border-radius: 50%; background: var(--sp-sub); display: block; }
+.sp-skip { position: absolute; right: 34px; bottom: 26px; font-size: 10px; letter-spacing: .18em; color: var(--sp-skip); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-line { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; }
+  .sp-rim { display: none; }
+  .sp-fill { opacity: 1; }
+}
+
+/* ---------- 逐字编排需要的排版细节 ---------- */
+.sp-kick span,
+.sp-wm i {
+  display: inline-block;
+  will-change: transform, opacity;
+  font-style: normal;
+}
+.sp-wm { white-space: nowrap; }
+.sp-wm i { opacity: 0; }
+.sp-kick span { opacity: 0; }
+.sp-rule {
+  width: 250px; height: 1px; overflow: hidden;
+}
+.sp-rule i {
+  display: block; width: 100%; height: 1px;
+  transform: scaleX(0); transform-origin: 50% 50%;
+}
+html[data-dsh-theme="dark"] .sp-rule i {
+  background: repeating-linear-gradient(90deg, rgba(255,237,215,.42) 0 2px, transparent 2px 4px);
+}
+html[data-dsh-theme="light"] .sp-rule i {
+  background: repeating-linear-gradient(90deg, rgba(36,26,18,.30) 0 2px, transparent 2px 4px);
+}
+.sp-sub em {
+  font-style: normal; opacity: .6;
+  margin: 0 2px;
+}
+.sp-sub span { opacity: 0; display: inline-block; }
+/* ---------- 0.74s 的墨点爆散（对应暗色的 burst） ---------- */
+.sp-burst {
+  position: absolute;
+  left: 50%; top: 46%;
+  width: 260px; height: 260px;
+  transform: translate(-50%, -50%) scale(.2);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  corner-shape: round;
+}
+html[data-dsh-theme="dark"] .sp-burst {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255,237,215,.55), rgba(255,160,0,.18) 45%, transparent 70%);
+}
+html[data-dsh-theme="light"] .sp-burst {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(36,26,18,.28), rgba(184,74,12,.12) 45%, transparent 70%);
+}

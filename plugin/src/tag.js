@@ -1,5 +1,5 @@
 /* ============================================================================
- * ORYZO DAY · 结构标记
+ * VELLUM DAY · 结构标记
  * ----------------------------------------------------------------------------
  * 问题：这个 app 的类名会随构建变，靠 [class*="_presented"] 这种猜法经常打空。
  * 做法：不猜类名，用「几何 + 文本」找出真正的那几块，给它们打上 data-*，
@@ -12,8 +12,8 @@
  * 让"到底有没有标到"这件事可以直接被看见。
  * ==========================================================================*/
 (function () {
-  if (window.__DSH_ORYZO_LIGHT_TAG__) return;
-  window.__DSH_ORYZO_LIGHT_TAG__ = true;
+  if (window.__DSH_VELLUM_LIGHT_TAG__) return;
+  window.__DSH_VELLUM_LIGHT_TAG__ = true;
 
   var FILE_RE = /\.(zip|rar|7z|png|jpe?g|gif|webp|svg|pdf|md|txt|json|js|mjs|ts|tsx|css|html|docx?|xlsx?|pptx?|csv|log)$/i;
   var timer = 0;
@@ -99,7 +99,7 @@
       'font:11px/1.2 ui-monospace,Consolas,monospace',
       'pointer-events:none', 'transition:opacity .4s', 'opacity:.9'
     ].join(';');
-    badge.textContent = 'oryzo-light v1.2.0 · cards:' + cards + ' canvas:' + (canvas ? 1 : 0);
+    badge.textContent = 'vellum-light v1.2.0 · cards:' + cards + ' canvas:' + (canvas ? 1 : 0);
     document.body.appendChild(badge);
     setTimeout(function () { if (badge) { badge.style.opacity = '0'; } }, 6000);
     setTimeout(function () { if (badge) { badge.remove(); badge = null; } }, 6800);
@@ -174,7 +174,7 @@
     }
   }
   function pass(showDiag) {
-    if (document.getElementById('dsh-oryzo-light-splash')) return;   // 片头期间不动
+    if (document.getElementById('dsh-vellum-light-splash')) return;   // 片头期间不动
     var canvas = tagCanvas();
     var cards = tagCards();
     tagRows();
@@ -196,14 +196,14 @@
     try {
       var mo = new MutationObserver(schedule);
       mo.observe(document.body, { childList: true, subtree: true });
-      window.__DSH_ORYZO_LIGHT_TAG_MO__ = mo;
+      window.__DSH_VELLUM_LIGHT_TAG_MO__ = mo;
     } catch (e) {}
     window.addEventListener('resize', schedule);
   }
 
   function stop() {
     clearTimeout(timer);
-    if (window.__DSH_ORYZO_LIGHT_TAG_MO__) { window.__DSH_ORYZO_LIGHT_TAG_MO__.disconnect(); window.__DSH_ORYZO_LIGHT_TAG_MO__ = null; }
+    if (window.__DSH_VELLUM_LIGHT_TAG_MO__) { window.__DSH_VELLUM_LIGHT_TAG_MO__.disconnect(); window.__DSH_VELLUM_LIGHT_TAG_MO__ = null; }
     window.removeEventListener('resize', schedule);
     if (badge) { badge.remove(); badge = null; }
     document.querySelectorAll('[data-dsh-canvas],[data-dsh-card],[data-dsh-msg]').forEach(function (n) {
@@ -213,9 +213,9 @@
       n.removeAttribute('data-dsh-row');
       n.removeAttribute('data-dsh-panel');
     });
-    window.__DSH_ORYZO_LIGHT_TAG__ = false;
+    window.__DSH_VELLUM_LIGHT_TAG__ = false;
   }
 
-  window.__DSH_ORYZO_LIGHT_TAG_START__ = start;
-  window.__DSH_ORYZO_LIGHT_TAG_STOP__ = stop;
+  window.__DSH_VELLUM_LIGHT_TAG_START__ = start;
+  window.__DSH_VELLUM_LIGHT_TAG_STOP__ = stop;
 })();

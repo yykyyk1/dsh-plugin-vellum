@@ -1,5 +1,5 @@
 /* ============================================================================
- * ORYZO · 主题与开关（合并版）
+ * VELLUM · 主题与开关（合并版）
  * ----------------------------------------------------------------------------
  * 一个插件里装两套皮肤：暗房 / 暖纸。
  *   html[data-dsh-theme="dark"]   → 暗色皮肤 + 暗色舞台
@@ -8,10 +8,10 @@
  * 选择记在 localStorage，下次启动沿用。
  * ==========================================================================*/
 (function () {
-  if (window.__DSH_ORYZO__) return;
+  if (window.__DSH_VELLUM__) return;
 
-  var KEY_THEME = 'dsh-oryzo-theme';
-  var KEY_SOUND = 'dsh-oryzo-sound';
+  var KEY_THEME = 'dsh-vellum-theme';
+  var KEY_SOUND = 'dsh-vellum-sound';
   var state = { theme: 'dark', sound: true };
 
   try {
@@ -23,8 +23,8 @@
   function body() { return document.body || null; }
 
   function applyStage() {
-    var dark = window.__DSH_ORYZO_DARK_STAGE__;
-    var light = window.__DSH_ORYZO_LIGHT_STAGE__;
+    var dark = window.__DSH_VELLUM_DARK_STAGE__;
+    var light = window.__DSH_VELLUM_LIGHT_STAGE__;
     try {
       if (state.theme === 'dark') {
         if (light) light.stop();
@@ -41,9 +41,9 @@
     try {
       var vs = window.__DSH_VS_AUDIO__ || {};
       var n = Object.keys(vs).length;
-      if (!window.__DSH_ORyzo_AUDIO_LOGGED__) {
-        window.__DSH_ORyzo_AUDIO_LOGGED__ = true;
-        console.log('[oryzo] 音效来源: ' + (n ? ('VS Code 原声 ' + n + ' 个') : '合成音（没找到内联素材）'));
+      if (!window.__DSH_VELLUM_AUDIO_LOGGED__) {
+        window.__DSH_VELLUM_AUDIO_LOGGED__ = true;
+        console.log('[vellum] 音效来源: ' + (n ? ('VS Code 原声 ' + n + ' 个') : '合成音（没找到内联素材）'));
       }
     } catch (e) {}
     var s = window.__DSH_SOUND__;
@@ -61,7 +61,7 @@
     }
     if (attrs !== false) applyStage();
     applySound();
-    document.dispatchEvent(new CustomEvent('dsh-oryzo-change', {
+    document.dispatchEvent(new CustomEvent('dsh-vellum-change', {
       detail: { theme: state.theme, sound: state.sound }
     }));
     return state;
@@ -89,5 +89,5 @@
     apply: function () { return apply(true); }
   };
 
-  window.__DSH_ORYZO__ = api;
+  window.__DSH_VELLUM__ = api;
 })();

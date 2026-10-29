@@ -1,23 +1,23 @@
 /* ============================================================================
- * ORYZO · 控制条
+ * VELLUM · 控制条
  * 右下角一枚胶囊：☾/☀ 切换明暗，♪ 开关音效。
  * 快捷键：Ctrl+Shift+L 明暗 · Ctrl+Shift+M 音效。
  * ==========================================================================*/
 (function () {
-  if (window.__DSH_ORYZO_CONTROL__) return;
-  window.__DSH_ORYZO_CONTROL__ = true;
+  if (window.__DSH_VELLUM_CONTROL__) return;
+  window.__DSH_VELLUM_CONTROL__ = true;
 
   var bar = null;
 
   function build() {
     if (bar) return bar;
-    var api = window.__DSH_ORYZO__;
+    var api = window.__DSH_VELLUM__;
     if (!api) return null;
 
     bar = document.createElement('div');
-    bar.id = 'dsh-oryzo-control';
+    bar.id = 'dsh-vellum-control';
     bar.setAttribute('role', 'group');
-    bar.setAttribute('aria-label', 'ORYZO 外观');
+    bar.setAttribute('aria-label', 'VELLUM 外观');
 
     var themeBtn = document.createElement('button');
     themeBtn.type = 'button';
@@ -48,7 +48,7 @@
   }
 
   function render() {
-    var api = window.__DSH_ORYZO__;
+    var api = window.__DSH_VELLUM__;
     if (!api || !bar) return;
     var s = api.get();
     var themeBtn = bar.querySelector('.or-theme');
@@ -68,21 +68,21 @@
     }
   }
 
-  document.addEventListener('dsh-oryzo-change', render);
+  document.addEventListener('dsh-vellum-change', render);
 
   window.addEventListener('keydown', function (e) {
     if (!e.ctrlKey || !e.shiftKey) return;
     var k = (e.key || '').toLowerCase();
-    var api = window.__DSH_ORYZO__;
+    var api = window.__DSH_VELLUM__;
     if (!api) return;
     if (k === 'l') { e.preventDefault(); api.toggleTheme(); }
     if (k === 'm') { e.preventDefault(); api.toggleSound(); }
   }, true);
 
-  window.__DSH_ORYZO_CONTROL_START__ = function () { build(); };
-  window.__DSH_ORYZO_CONTROL_STOP__ = function () {
+  window.__DSH_VELLUM_CONTROL_START__ = function () { build(); };
+  window.__DSH_VELLUM_CONTROL_STOP__ = function () {
     if (bar && bar.parentNode) bar.parentNode.removeChild(bar);
     bar = null;
-    window.__DSH_ORYZO_CONTROL__ = false;
+    window.__DSH_VELLUM_CONTROL__ = false;
   };
 })();

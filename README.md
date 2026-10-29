@@ -1,4 +1,4 @@
-# ORYZO · DeepSeek Harness 主题插件
+# VELLUM · DeepSeek Harness 主题插件
 
 > 给 DSH 桌面端换一套 **暖墨 / 暖纸** 的双主题皮肤：环形粒子空态、鲸鱼片头、VS Code 风格音效、以及一只会在你思考时跳舞的 3D 桌宠。
 
@@ -27,7 +27,7 @@
 
 DSH 桌面端（DeepSeek Harness）的皮肤本质上是 **cordis bundle 插件**：一个 npm 包，通过 `cordis.patch.yml` 往应用里注入一行，再提供一个 `client.js` 在你的界面里注入 CSS + JS。
 
-ORYZO 做的事：
+VELLUM 做的事：
 
 | 层 | 内容 |
 | --- | --- |
@@ -141,8 +141,8 @@ DSH 的组件引用 `--dsw-alias-*` 语义变量。皮肤把 **107 个别名**�
 ### 方式 A：从源码安装（推荐，可自己改）
 
 ```powershell
-git clone https://github.com/yykyyk1/dsh-plugin-oryzo.git
-cd dsh-plugin-oryzo
+git clone https://github.com/yykyyk1/dsh-plugin-vellum.git
+cd dsh-plugin-vellum
 ```
 
 然后编辑 `%USERPROFILE%\.dsh\profiles\desktop\package.json`：
@@ -150,26 +150,26 @@ cd dsh-plugin-oryzo
 ```json
 {
   "dependencies": {
-    "dsh-plugin-oryzo": "link:C:/path/to/dsh-plugin-oryzo/plugin"
+    "dsh-plugin-vellum": "link:C:/path/to/dsh-plugin-vellum/plugin"
   },
   "dsh": {
     "profile": {
       "bundles": [
         "@deepseek-ai/dsh-base",
         "@deepseek-ai/dsh-web-app",
-        "dsh-plugin-oryzo"
+        "dsh-plugin-vellum"
       ]
     }
   }
 }
 ```
 
-- `bundles` 里**保留原本的条目**，只追加 `"dsh-plugin-oryzo"`；
+- `bundles` 里**保留原本的条目**，只追加 `"dsh-plugin-vellum"`；
 - 路径用**正斜杠**，`link:` 后面的路径指向仓库里的 `plugin/` 目录。
 
 ### 方式 B：直接装打包好的 zip
 
-1. 下载 Release 里的 `dsh-plugin-oryzo.zip` 并解压到任意目录；
+1. 下载 Release 里的 `dsh-plugin-vellum.zip` 并解压到任意目录；
 2. 同样编辑 profile，把 `link:` 指向解压目录。
 
 > ⚠️ 解压版**没有** `assets/`（素材已内联进 `client.js`）。想改源码重新构建，请用方式 A 的完整仓库。
@@ -252,8 +252,8 @@ node tools/build.mjs
 | 想改 | 改哪里 |
 | --- | --- |
 | 颜色 | `src/skin-dark.css` 里的 CSS 变量，然后跑 `node tools/make-light-skin.mjs` 重新生成亮色 |
-| 圆角 | `--dsh-oryzo-radius-*` 系列变量 |
-| 桌宠大小 / 位置 | `src/pet.css` 的 `#dsh-oryzo-pet`（当前 150×150，right 2px，bottom 26px） |
+| 圆角 | `--dsh-vellum-radius-*` 系列变量 |
+| 桌宠大小 / 位置 | `src/pet.css` 的 `#dsh-vellum-pet`（当前 150×150，right 2px，bottom 26px） |
 | 桌宠动作 | 换 `assets/pet/*.webm`，用 Blender 渲新的透明视频 |
 | 音效 | 换 `assets/vs/*.mp3` |
 | 片头时长 | `src/splash.js` 里的 `T` 对象 |

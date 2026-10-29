@@ -1,8 +1,8 @@
 /* ============================================================================
- * ORYZO 空态舞台：环形标志 + 粒子 + 点击开场
+ * VELLUM 空态舞台：环形标志 + 粒子 + 点击开场
  * ----------------------------------------------------------------------------
  * 这一段会被 tools/build.mjs 原样塞进 client.js 的 factory 里，所以不能有
- * import / export，也不能依赖任何外部模块。全部挂在 window.__DSH_ORYZO_HERO__ 上，
+ * import / export，也不能依赖任何外部模块。全部挂在 window.__DSH_VELLUM_HERO__ 上，
  * 方便我在 _skin-lab 里单独注入调试。
  *
  * 生命周期：
@@ -11,9 +11,9 @@
  *   发出第一条消息     → composerHero 消失 → 舞台卸载、属性清掉
  * ==========================================================================*/
 (function () {
-  if (window.__DSH_ORYZO_HERO__) return;
+  if (window.__DSH_VELLUM_HERO__) return;
 
-  var STAGE_ID = 'dsh-oryzo-stage';
+  var STAGE_ID = 'dsh-vellum-stage';
   var ATTR = 'data-dsb-stage';
   var state = 'idle';
   var root = null;          // 舞台根节点
@@ -268,7 +268,7 @@
       for (var i = 0; i < parent.children.length; i++) {
         var k = parent.children[i];
         if (k === n || k.contains(card)) continue;
-        if (k.id && k.id.indexOf('dsh-oryzo') === 0) continue;   // 别把自己的舞台/控制条/桌宠藏了
+        if (k.id && k.id.indexOf('dsh-vellum') === 0) continue;   // 别把自己的舞台/控制条/桌宠藏了
         var r = k.getBoundingClientRect();
         if (r.height < 4 && r.width < 4) continue;
         if (k.querySelector && k.querySelector('[data-chat-flow]')) continue;
@@ -385,5 +385,5 @@
     unmount();
   }
 
-  window.__DSH_ORYZO_HERO__ = { start: start, stop: stop, open: open, state: function () { return state; } };
+  window.__DSH_VELLUM_HERO__ = { start: start, stop: stop, open: open, state: function () { return state; } };
 })();

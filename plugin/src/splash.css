@@ -1,9 +1,9 @@
 /* ============================================================================
- * ORYZO · 片头（一个实现，两种主题）
+ * VELLUM · 片头（一个实现，两种主题）
  *   暗：墨线描完 → 填成奶油实体 → 琥珀轮廓光扫过
  *   亮：只留线稿
  * ==========================================================================*/
-#dsh-oryzo-splash {
+#dsh-vellum-splash {
   position: fixed;
   inset: 0;
   z-index: 2147483600;
@@ -12,9 +12,9 @@
   -webkit-font-smoothing: antialiased;
   corner-shape: round;
 }
-#dsh-oryzo-splash * { box-sizing: border-box; corner-shape: round; }
+#dsh-vellum-splash * { box-sizing: border-box; corner-shape: round; }
 
-html[data-dsh-theme="dark"] #dsh-oryzo-splash {
+html[data-dsh-theme="dark"] #dsh-vellum-splash {
   background: #100904;
   color: #ffedd7;
   --sp-ink: #ffedd7;
@@ -25,7 +25,7 @@ html[data-dsh-theme="dark"] #dsh-oryzo-splash {
   --sp-skip: rgba(255, 237, 215, .35);
   --sp-glow: rgba(255, 160, 0, .16);
 }
-html[data-dsh-theme="light"] #dsh-oryzo-splash {
+html[data-dsh-theme="light"] #dsh-vellum-splash {
   background: #f5ede2;
   color: #241a12;
   --sp-ink: #241a12;

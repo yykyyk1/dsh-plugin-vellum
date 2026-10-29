@@ -1,4 +1,4 @@
-# ORYZO 安装脚本（Windows）
+# VELLUM 安装脚本（Windows）
 # 用法：在仓库根目录运行  .\install.ps1
 $ErrorActionPreference = 'Stop'
 $profileDir = Join-Path $env:USERPROFILE '.dsh\profiles\desktop'
@@ -15,11 +15,11 @@ Copy-Item $pkgPath "$pkgPath.bak" -Force
 $json = Get-Content $pkgPath -Raw | ConvertFrom-Json
 
 if (-not $json.dependencies) { $json.dependencies = [pscustomobject]@{} }
-$json.dependencies | Add-Member -NotePropertyName 'dsh-plugin-oryzo' -NotePropertyValue ("link:" + $pluginPath) -Force
+$json.dependencies | Add-Member -NotePropertyName 'dsh-plugin-vellum' -NotePropertyValue ("link:" + $pluginPath) -Force
 
 if (-not $json.dsh.profile.bundles) { $json.dsh.profile.bundles = @() }
-if ($json.dsh.profile.bundles -notcontains 'dsh-plugin-oryzo') {
-  $json.dsh.profile.bundles += 'dsh-plugin-oryzo'
+if ($json.dsh.profile.bundles -notcontains 'dsh-plugin-vellum') {
+  $json.dsh.profile.bundles += 'dsh-plugin-vellum'
 }
 
 $json | ConvertTo-Json -Depth 10 | Set-Content $pkgPath -Encoding UTF8

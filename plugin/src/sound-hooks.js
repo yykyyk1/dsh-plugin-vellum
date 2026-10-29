@@ -2,7 +2,7 @@
  * 把音效挂到真实事件上
  * ----------------------------------------------------------------------------
  *  片头    出现 #dsh-splash-host 时播一次（和片头同一条时间轴）
- *  开场    点空态舞台（#dsh-oryzo-stage 的命中层）
+ *  开场    点空态舞台（#dsh-vellum-stage 的命中层）
  *  发送    输入框里回车，或点发送键
  *  思考中  聊天流里出现「生成中」时循环一层很轻的垫音，结束后收掉
  *  Ctrl+Shift+M  静音开关
@@ -34,7 +34,7 @@
     if (splashSeen) return;
     // 三种片头都认：原版 boot 片头 / 合并版线稿片头 / 旧的独立插件
     if (!document.getElementById('dsh-boot-host') &&
-        !document.getElementById('dsh-oryzo-splash') &&
+        !document.getElementById('dsh-vellum-splash') &&
         !document.getElementById('dsh-splash-host')) return;
     splashSeen = true;
     S.play('splash');
@@ -46,7 +46,7 @@
     if (!t || !t.closest) return;
 
     // 空态舞台：整块画面点击 → 开场音（暗色/亮色两套舞台都要）
-    if (t.closest('#dsh-oryzo-stage .vo-hit') || t.closest('#dsh-oryzo-light-stage')) { S.play('open'); return; }
+    if (t.closest('#dsh-vellum-stage .vo-hit') || t.closest('#dsh-vellum-light-stage')) { S.play('open'); return; }
 
     // 发送键（app 的输入卡里那颗）：类名带 send 的按钮/元素
     var sendBtn = t.closest('[class*="send"], button[type="submit"]');

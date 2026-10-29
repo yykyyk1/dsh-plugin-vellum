@@ -1,6 +1,6 @@
 /* ============================================================================
- * ORYZO 空态舞台 · 样式
- * 作用域：#dsh-oryzo-stage（我们自己的覆盖层）+ html[data-dsb-stage]
+ * VELLUM 空态舞台 · 样式
+ * 作用域：#dsh-vellum-stage（我们自己的覆盖层）+ html[data-dsb-stage]
  * 约定：这一层盖在聊天列上，输入卡在它下面；idle 时把 app 自带的标题藏掉、
  *       输入卡压下去；open 时反过来。
  * ==========================================================================*/
@@ -39,7 +39,7 @@ html[data-dsb-stage="open"] div:has(> div > div > [contenteditable="true"]) {
 }
 
 /* ---------- 舞台本体 ---------- */
-#dsh-oryzo-stage {
+#dsh-vellum-stage {
   position: fixed;
   z-index: 30;
   overflow: hidden;
@@ -49,15 +49,15 @@ html[data-dsb-stage="open"] div:has(> div > div > [contenteditable="true"]) {
   -webkit-font-smoothing: antialiased;
   pointer-events: none;
 }
-#dsh-oryzo-stage * { box-sizing: border-box; }
+#dsh-vellum-stage * { box-sizing: border-box; }
 
 /* app 的 corner-shape.css 用 `*` 给所有元素套了 corner-shape: superellipse(1.5)，
  * 圆环 / 内核进到 app 里就变成"圆角方"（原型是独立页面，所以看不出来）。
  * 舞台里全部改回正圆。 */
-#dsh-oryzo-stage,
-#dsh-oryzo-stage *,
-#dsh-oryzo-stage *::before,
-#dsh-oryzo-stage *::after {
+#dsh-vellum-stage,
+#dsh-vellum-stage *,
+#dsh-vellum-stage *::before,
+#dsh-vellum-stage *::after {
   corner-shape: round;
 }
 
@@ -204,32 +204,32 @@ html[data-dsb-stage="open"] div:has(> div > div > [contenteditable="true"]) {
 }
 
 /* ---------- 状态机 ---------- */
-#dsh-oryzo-stage[data-state="opening"] .vo-hit,
-#dsh-oryzo-stage[data-state="open"] .vo-hit { display: none; }
+#dsh-vellum-stage[data-state="opening"] .vo-hit,
+#dsh-vellum-stage[data-state="open"] .vo-hit { display: none; }
 
-#dsh-oryzo-stage[data-state="opening"] .vo-title { opacity: 0; filter: blur(6px); transform: translate(-50%, 14px); }
-#dsh-oryzo-stage[data-state="opening"] .vo-word { letter-spacing: .33em; }
-#dsh-oryzo-stage[data-state="opening"] .vo-mark { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
-#dsh-oryzo-stage[data-state="open"] .vo-mark { opacity: 0; visibility: hidden; }
-#dsh-oryzo-stage[data-state="open"] .vo-title { opacity: 0; visibility: hidden; }
-#dsh-oryzo-stage[data-state="open"] .vo-emblem { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#dsh-vellum-stage[data-state="opening"] .vo-title { opacity: 0; filter: blur(6px); transform: translate(-50%, 14px); }
+#dsh-vellum-stage[data-state="opening"] .vo-word { letter-spacing: .33em; }
+#dsh-vellum-stage[data-state="opening"] .vo-mark { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+#dsh-vellum-stage[data-state="open"] .vo-mark { opacity: 0; visibility: hidden; }
+#dsh-vellum-stage[data-state="open"] .vo-title { opacity: 0; visibility: hidden; }
+#dsh-vellum-stage[data-state="open"] .vo-emblem { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
 /* 打开之后：场景降为背景，留 25%，继续跟鼠标互动 */
-#dsh-oryzo-stage[data-state="open"] .vo-glow { opacity: .25; transform: translate(-50%, -50%) scale(1.08); }
-#dsh-oryzo-stage[data-state="open"] .vo-field { opacity: .25; }
-#dsh-oryzo-stage[data-state="open"] .vo-fx { opacity: .25; }
-#dsh-oryzo-stage[data-state="open"] .vo-vignette { opacity: .8; }
+#dsh-vellum-stage[data-state="open"] .vo-glow { opacity: .25; transform: translate(-50%, -50%) scale(1.08); }
+#dsh-vellum-stage[data-state="open"] .vo-field { opacity: .25; }
+#dsh-vellum-stage[data-state="open"] .vo-fx { opacity: .25; }
+#dsh-vellum-stage[data-state="open"] .vo-vignette { opacity: .8; }
 
 /* ---------- 降级：系统要求减少动效 ---------- */
 @media (prefers-reduced-motion: reduce) {
-  #dsh-oryzo-stage .vo-orbit,
-  #dsh-oryzo-stage .vo-ring-a,
-  #dsh-oryzo-stage .vo-ring-b,
-  #dsh-oryzo-stage .vo-ring-c,
-  #dsh-oryzo-stage .vo-core,
-  #dsh-oryzo-stage .vo-sat-a,
-  #dsh-oryzo-stage .vo-sat-b,
-  #dsh-oryzo-stage .vo-e-ring,
-  #dsh-oryzo-stage .vo-e-core,
-  #dsh-oryzo-stage .vo-hint { animation: none !important; }
+  #dsh-vellum-stage .vo-orbit,
+  #dsh-vellum-stage .vo-ring-a,
+  #dsh-vellum-stage .vo-ring-b,
+  #dsh-vellum-stage .vo-ring-c,
+  #dsh-vellum-stage .vo-core,
+  #dsh-vellum-stage .vo-sat-a,
+  #dsh-vellum-stage .vo-sat-b,
+  #dsh-vellum-stage .vo-e-ring,
+  #dsh-vellum-stage .vo-e-core,
+  #dsh-vellum-stage .vo-hint { animation: none !important; }
 }

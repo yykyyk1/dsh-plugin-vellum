@@ -1,5 +1,5 @@
 /* ============================================================================
- * ORYZO · 片头时间轴
+ * VELLUM · 片头时间轴
  * ----------------------------------------------------------------------------
  * 0.15  墨线开始描（2.4s）
  * 2.15  琥珀光沿线扫过
@@ -11,11 +11,11 @@
  * 每个窗口会话只播一次（sessionStorage）。
  * ==========================================================================*/
 (function () {
-  if (window.__DSH_ORYZO_SPLASH__) return;
-  window.__DSH_ORYZO_SPLASH__ = true;
+  if (window.__DSH_VELLUM_SPLASH__) return;
+  window.__DSH_VELLUM_SPLASH__ = true;
 
-  var KEY = 'dsh-oryzo-splash-played';
-  var forced = window.__DSH_ORYZO_SPLASH_FORCE__ === true ||
+  var KEY = 'dsh-vellum-splash-played';
+  var forced = window.__DSH_VELLUM_SPLASH_FORCE__ === true ||
     /(?:^|[#&])splash(?:[=&]|$)/.test(location.hash);
   if (!forced) {
     try { if (sessionStorage.getItem(KEY)) return; } catch (e) {}
@@ -87,7 +87,7 @@
     var light = document.documentElement.getAttribute('data-dsh-theme') === 'light';
 
     host = el('div', '');
-    host.id = 'dsh-oryzo-splash';
+    host.id = 'dsh-vellum-splash';
 
     var glow = el('div', 'sp-glow');
     host.appendChild(glow);
@@ -267,6 +267,6 @@
       timers.push(setTimeout(teardown, T.outroDur + 60));
     }, T.outro));  }
 
-  window.__DSH_ORYZO_SPLASH_START__ = start;
-  window.__DSH_ORYZO_SPLASH_CANCEL__ = cancel;
+  window.__DSH_VELLUM_SPLASH_START__ = start;
+  window.__DSH_VELLUM_SPLASH_CANCEL__ = cancel;
 })();

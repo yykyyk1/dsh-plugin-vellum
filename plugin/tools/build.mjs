@@ -15,8 +15,8 @@ const ws = join(root, '..');
 
 
 
-const PKG = 'dsh-plugin-oryzo';
-const STYLE_ID = 'dsh-oryzo-style';
+const PKG = 'dsh-plugin-vellum';
+const STYLE_ID = 'dsh-vellum-style';
 
 
 
@@ -49,7 +49,7 @@ const dark = skinDark
 
 
 
-const light = skinLight.replaceAll('html[data-dsh-skin="oryzo-light"]', 'html[data-dsh-theme="light"]');
+const light = skinLight.replaceAll('html[data-dsh-skin="vellum-light"]', 'html[data-dsh-theme="light"]');
 
 
 
@@ -59,7 +59,7 @@ const paletteBlock = Object.entries(palette)
 
 
 
-const css = `/* ORYZO — built from src/*, do not edit by hand */
+const css = `/* VELLUM — built from src/*, do not edit by hand */
 
 
 
@@ -157,7 +157,7 @@ ${themeJs}
 
 
 ${stageDarkJs}
-    window.__DSH_ORYZO_DARK_STAGE__ = window.__DSH_ORYZO_HERO__;
+    window.__DSH_VELLUM_DARK_STAGE__ = window.__DSH_VELLUM_HERO__;
 
 
 
@@ -208,7 +208,7 @@ ${controlJs}
 
 
         // 主题先落地，舞台/片头/控制条才知道自己该长什么样
-        const api = window.__DSH_ORYZO__;
+        const api = window.__DSH_VELLUM__;
         if (api) api.apply(); else root.setAttribute('data-dsh-theme', 'dark');
 
 
@@ -216,14 +216,14 @@ ${controlJs}
         // 片头：暗色播 deepseek-boot 原版（粒子/描线/填充），亮色播线稿版。
         // 一个窗口会话只播一次，切换主题不重播。
         const played = (function () {
-          try { return sessionStorage.getItem('dsh-oryzo-splash-played') === '1'; } catch (e) { return false; }
+          try { return sessionStorage.getItem('dsh-vellum-splash-played') === '1'; } catch (e) { return false; }
         })();
         function playSplash() {
-          var api = window.__DSH_ORYZO__;
+          var api = window.__DSH_VELLUM__;
           var theme = api ? api.get().theme : 'dark';
-          try { sessionStorage.setItem('dsh-oryzo-splash-played', '1'); } catch (e) {}
+          try { sessionStorage.setItem('dsh-vellum-splash-played', '1'); } catch (e) {}
           if (theme === 'dark' && window.__DSH_BOOT_SPLASH__) window.__DSH_BOOT_SPLASH__.start();
-          else if (window.__DSH_ORYZO_SPLASH_START__) window.__DSH_ORYZO_SPLASH_START__();
+          else if (window.__DSH_VELLUM_SPLASH_START__) window.__DSH_VELLUM_SPLASH_START__();
         }
         if (!played) {
           if (document.readyState === 'loading') {
@@ -235,33 +235,33 @@ ${controlJs}
 
 
 
-        const petStart = window.__DSH_ORYZO_PET_START__;
+        const petStart = window.__DSH_VELLUM_PET_START__;
         if (petStart) petStart();
 
-        const control = window.__DSH_ORYZO_CONTROL_START__;
+        const control = window.__DSH_VELLUM_CONTROL_START__;
         if (control) control();
 
 
 
-        const tag = window.__DSH_ORYZO_LIGHT_TAG_START__;
+        const tag = window.__DSH_VELLUM_LIGHT_TAG_START__;
         if (tag) tag();
 
 
 
         return () => {
-          const cancel = window.__DSH_ORYZO_SPLASH_CANCEL__;
+          const cancel = window.__DSH_VELLUM_SPLASH_CANCEL__;
           if (cancel) cancel();
           if (window.__DSH_BOOT_SPLASH__) window.__DSH_BOOT_SPLASH__.cancel();
-          const petStop = window.__DSH_ORYZO_PET_STOP__;
+          const petStop = window.__DSH_VELLUM_PET_STOP__;
         if (petStop) petStop();
 
-        const stopControl = window.__DSH_ORYZO_CONTROL_STOP__;
+        const stopControl = window.__DSH_VELLUM_CONTROL_STOP__;
           if (stopControl) stopControl();
-          const stopTag = window.__DSH_ORYZO_LIGHT_TAG_STOP__;
+          const stopTag = window.__DSH_VELLUM_LIGHT_TAG_STOP__;
           if (stopTag) stopTag();
-          const d = window.__DSH_ORYZO_DARK_STAGE__;
+          const d = window.__DSH_VELLUM_DARK_STAGE__;
           if (d) d.stop();
-          const l = window.__DSH_ORYZO_LIGHT_STAGE__;
+          const l = window.__DSH_VELLUM_LIGHT_STAGE__;
           if (l) l.stop();
           const s = window.__DSH_SOUND_HOOKS__;
           if (window.__DSH_SOUND_CLEANUP__) window.__DSH_SOUND_CLEANUP__();
@@ -294,7 +294,7 @@ console.log(`client.js: ${client.length} chars (css ${css.length})`);
 const design = join(ws, '_design');
 if (existsSync(design)) {
   const page = `<!doctype html>
-<meta charset="utf-8"><title>oryzo merged preview</title>
+<meta charset="utf-8"><title>vellum merged preview</title>
 <style>
   html,body{margin:0;height:100%;font-family:"Segoe UI",system-ui,sans-serif}
   body[data-prev="dark"]{background:#100904;color:#ffedd7}
@@ -307,26 +307,26 @@ if (existsSync(design)) {
 <script>
   window.__mods = {};
   window.__ModuleLoader__ = { load: function (m) { window.__mods[m.id] = m; } };
-  try { sessionStorage.setItem('dsh-oryzo-splash-played', '1'); } catch (e) {}
+  try { sessionStorage.setItem('dsh-vellum-splash-played', '1'); } catch (e) {}
 </script>
 <body data-prev="dark">
 <div class="wrap">
-  <h3>ORYZO · 合并版预览</h3>
+  <h3>VELLUM · 合并版预览</h3>
   <p>右下角是控制条：☾/☀ 切明暗，♪ 开关音效。也可以用 <b>Ctrl+Shift+L</b> / <b>Ctrl+Shift+M</b>。</p>
   <div class="row"><div class="box">主题：<b id="t">dark</b></div><div class="box">音效：<b id="s">on</b></div></div>
   <p>这个页面只是验证控制条与主题切换；皮肤/舞台/片头要在 app 里看。</p>
 </div>
-<script src="../dsh-plugin-oryzo/client.js"></script>
+<script src="../dsh-plugin-vellum/client.js"></script>
 <script>
-  var m = window.__mods['dsh-plugin-oryzo'];
+  var m = window.__mods['dsh-plugin-vellum'];
   if (m) m.factory(function(){ return {}; }).apply({ effect: function(fn){ window.__cleanup = fn(); } });
-  document.addEventListener('dsh-oryzo-change', function (e) {
+  document.addEventListener('dsh-vellum-change', function (e) {
     document.body.setAttribute('data-prev', e.detail.theme);
     document.getElementById('t').textContent = e.detail.theme;
     document.getElementById('s').textContent = e.detail.sound ? 'on' : 'off';
   });
 </script>
 `;
-  await writeFile(join(design, 'oryzo-preview.html'), page, 'utf8');
-  console.log('preview: _design/oryzo-preview.html');
+  await writeFile(join(design, 'vellum-preview.html'), page, 'utf8');
+  console.log('preview: _design/vellum-preview.html');
 }

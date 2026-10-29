@@ -1,9 +1,9 @@
 {
-  "name": "dsh-plugin-oryzo",
+  "name": "dsh-plugin-vellum",
   "version": "2.2.13",
   "private": true,
   "type": "module",
-  "description": "ORYZO 合并版：暗/亮两套皮肤 + 空态舞台 + 片头 + 音效，右下角切换",
+  "description": "VELLUM 合并版：暗/亮两套皮肤 + 空态舞台 + 片头 + 音效，右下角切换",
   "icon": "./icon.svg",
   "exports": {
     ".": "./index.js",

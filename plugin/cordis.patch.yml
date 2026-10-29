@@ -1,5 +1,5 @@
-# ORYZO 合并版：插一行
+# VELLUM 合并版：插一行
 - insert:
-    - id: oryzo
-      name: dsh-plugin-oryzo
+    - id: vellum
+      name: dsh-plugin-vellum
       config: {}

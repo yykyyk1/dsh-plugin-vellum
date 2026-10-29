@@ -1,12 +1,12 @@
 /* ============================================================================
- * ORYZO DAY · 空态舞台逻辑
+ * VELLUM DAY · 空态舞台逻辑
  * 和暗色版同一套行为：有空态就挂载、点一下开场、有对话就卸载。
  * 差别只有一个：纸面上的"尘埃"是深色微墨点，不是发光余烬，所以不用 lighter 混合。
  * ==========================================================================*/
 (function () {
-  if (window.__DSH_ORYZO_LIGHT_STAGE__) return;
+  if (window.__DSH_VELLUM_LIGHT_STAGE__) return;
 
-  var STAGE_ID = 'dsh-oryzo-light-stage';
+  var STAGE_ID = 'dsh-vellum-light-stage';
   var ATTR = 'data-dsb-light-stage';
   var state = 'idle';
   var root = null, host = null, canvas = null, ctx2d = null;
@@ -219,7 +219,7 @@
   function open() {
     if (state !== 'idle') return;
     setState('opening');
-    window.dispatchEvent(new CustomEvent('dsh-oryzo-light-open'));
+    window.dispatchEvent(new CustomEvent('dsh-vellum-light-open'));
     setTimeout(function () { setState('open'); focusComposer(); }, 1000);
   }
 
@@ -262,7 +262,7 @@
       for (var i = 0; i < parent.children.length; i++) {
         var k = parent.children[i];
         if (k === n || k.contains(card)) continue;
-        if (k.id && k.id.indexOf('dsh-oryzo') === 0) continue;   // 别把自己的舞台/控制条/桌宠藏了
+        if (k.id && k.id.indexOf('dsh-vellum') === 0) continue;   // 别把自己的舞台/控制条/桌宠藏了
         var r = k.getBoundingClientRect();
         if (r.height < 4 && r.width < 4) continue;
         if (k.querySelector && k.querySelector('[data-chat-flow]')) continue;
@@ -391,5 +391,5 @@
     unmount();
   }
 
-  window.__DSH_ORYZO_LIGHT_STAGE__ = { start: start, stop: stop, open: open, state: function () { return state; } };
+  window.__DSH_VELLUM_LIGHT_STAGE__ = { start: start, stop: stop, open: open, state: function () { return state; } };
 })();

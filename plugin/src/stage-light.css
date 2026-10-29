@@ -1,6 +1,6 @@
 /* ============================================================================
- * ORYZO DAY · 空态舞台
- * 作用域：#dsh-oryzo-light-stage + html[data-dsb-light-stage]
+ * VELLUM DAY · 空态舞台
+ * 作用域：#dsh-vellum-light-stage + html[data-dsb-light-stage]
  * 语言：暖纸、墨、琥珀；零阴影；虚线 2px/2px；微标签 .32em 字距。
  * ==========================================================================*/
 
@@ -34,7 +34,7 @@ html[data-dsb-light-stage="open"] div:has(> div > div > [contenteditable="true"]
 }
 
 /* ---------- 舞台本体 ---------- */
-#dsh-oryzo-light-stage {
+#dsh-vellum-light-stage {
   position: fixed;
   z-index: 2147482000;   /* 提到 app 自己的层之上：30 在真实 DOM 里会被聊天区盖住 */
   overflow: hidden;
@@ -44,12 +44,12 @@ html[data-dsb-light-stage="open"] div:has(> div > div > [contenteditable="true"]
   -webkit-font-smoothing: antialiased;
   pointer-events: none;
 }
-#dsh-oryzo-light-stage * { box-sizing: border-box; }
+#dsh-vellum-light-stage * { box-sizing: border-box; }
 /* app 的 corner-shape 会把圆环压成圆角方，这里改回正圆 */
-#dsh-oryzo-light-stage,
-#dsh-oryzo-light-stage *,
-#dsh-oryzo-light-stage *::before,
-#dsh-oryzo-light-stage *::after {
+#dsh-vellum-light-stage,
+#dsh-vellum-light-stage *,
+#dsh-vellum-light-stage *::before,
+#dsh-vellum-light-stage *::after {
   corner-shape: round;
 }
 
@@ -171,29 +171,29 @@ html[data-dsb-light-stage="open"] div:has(> div > div > [contenteditable="true"]
 .lv-hit { position: absolute; inset: 0; pointer-events: auto; cursor: pointer; outline: none; }
 
 /* ---------- 状态机 ---------- */
-#dsh-oryzo-light-stage[data-state="opening"] .lv-hit,
-#dsh-oryzo-light-stage[data-state="open"] .lv-hit { display: none; }
+#dsh-vellum-light-stage[data-state="opening"] .lv-hit,
+#dsh-vellum-light-stage[data-state="open"] .lv-hit { display: none; }
 
-#dsh-oryzo-light-stage[data-state="opening"] .lv-word { opacity: 0; filter: blur(6px); transform: translate(-50%, 14px); }
-#dsh-oryzo-light-stage[data-state="opening"] .lv-word .w { letter-spacing: .33em; }
-#dsh-oryzo-light-stage[data-state="opening"] .lv-mark { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
-#dsh-oryzo-light-stage[data-state="open"] .lv-mark { opacity: 0; visibility: hidden; }
-#dsh-oryzo-light-stage[data-state="open"] .lv-word { opacity: 0; visibility: hidden; }
-#dsh-oryzo-light-stage[data-state="open"] .lv-emblem { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#dsh-vellum-light-stage[data-state="opening"] .lv-word { opacity: 0; filter: blur(6px); transform: translate(-50%, 14px); }
+#dsh-vellum-light-stage[data-state="opening"] .lv-word .w { letter-spacing: .33em; }
+#dsh-vellum-light-stage[data-state="opening"] .lv-mark { opacity: 0; transform: translate(-50%, -50%) scale(.72); }
+#dsh-vellum-light-stage[data-state="open"] .lv-mark { opacity: 0; visibility: hidden; }
+#dsh-vellum-light-stage[data-state="open"] .lv-word { opacity: 0; visibility: hidden; }
+#dsh-vellum-light-stage[data-state="open"] .lv-emblem { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-#dsh-oryzo-light-stage[data-state="open"] .lv-halo { opacity: .28; transform: translate(-50%, -50%) scale(1.08); }
-#dsh-oryzo-light-stage[data-state="open"] .lv-field { opacity: .28; }
-#dsh-oryzo-light-stage[data-state="open"] .lv-fx { opacity: .28; }
+#dsh-vellum-light-stage[data-state="open"] .lv-halo { opacity: .28; transform: translate(-50%, -50%) scale(1.08); }
+#dsh-vellum-light-stage[data-state="open"] .lv-field { opacity: .28; }
+#dsh-vellum-light-stage[data-state="open"] .lv-fx { opacity: .28; }
 
 @media (prefers-reduced-motion: reduce) {
-  #dsh-oryzo-light-stage .lv-ring-arc,
-  #dsh-oryzo-light-stage .lv-ring-in,
-  #dsh-oryzo-light-stage .lv-core,
-  #dsh-oryzo-light-stage .lv-sat-a,
-  #dsh-oryzo-light-stage .lv-sat-b,
-  #dsh-oryzo-light-stage .lv-e-ring,
-  #dsh-oryzo-light-stage .lv-e-core,
-  #dsh-oryzo-light-stage .lv-word .hint { animation: none !important; }
+  #dsh-vellum-light-stage .lv-ring-arc,
+  #dsh-vellum-light-stage .lv-ring-in,
+  #dsh-vellum-light-stage .lv-core,
+  #dsh-vellum-light-stage .lv-sat-a,
+  #dsh-vellum-light-stage .lv-sat-b,
+  #dsh-vellum-light-stage .lv-e-ring,
+  #dsh-vellum-light-stage .lv-e-core,
+  #dsh-vellum-light-stage .lv-word .hint { animation: none !important; }
 }
 
 /* ---------- 纸面底：把 app 自带的空态整块盖住 ----------
@@ -205,4 +205,4 @@ html[data-dsb-light-stage="open"] div:has(> div > div > [contenteditable="true"]
   background: #f5ede2;
   transition: opacity .6s ease;
 }
-#dsh-oryzo-light-stage[data-state="open"] .lv-paper { opacity: 0; }
+#dsh-vellum-light-stage[data-state="open"] .lv-paper { opacity: 0; }

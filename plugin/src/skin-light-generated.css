@@ -1,7 +1,7 @@
 /* 由 tools/make-light-skin.mjs 生成：暗色皮肤的几何 + 暖纸配色。别手改。 */
-/* DeepSeek Harness · ORYZO 风格皮肤 v4（纯 CSS 覆盖，不改 app 包）
+/* DeepSeek Harness · VELLUM 风格皮肤 v4（纯 CSS 覆盖，不改 app 包）
  *
- * 取向（对应 ORYZO / Lusion 那套系统，方案 B）：
+ * 取向（对应 VELLUM / Lusion 那套系统，方案 B）：
  *   画布用暖黑 #f5ede2，不是纯黑；深度只靠两档明度，不用阴影；
  *   橙色只当"光"——光标、焦点环、运行指示点、选中态，不做实心面；
  *   半径收敛成四种：12 卡片 / 18 消息 / 999 胶囊 / 0 文字。
@@ -816,7 +816,7 @@ html[data-dsh-theme="light"] body ::selection {
   background: rgba(184, 74, 12, 0.3);
 }
 
-/* ---------- 右上角竖排铭牌：参考站的 "ORYZO 1-MODEL" ---------- */
+/* ---------- 右上角竖排铭牌：参考站的 "VELLUM 1-MODEL" ---------- */
 html[data-dsh-theme="light"] body::after {
   content: "DSH-1 · HARNESS";
   position: fixed;
@@ -932,13 +932,13 @@ html[data-dsh-theme="light"] body [data-dsh-panel] {
   box-shadow: none !important;
 }
 /* ---------- 空态遮罩层：不透明底，盖住 app 自己的空态 ---------- */
-html[data-dsh-theme="light"] body #dsh-oryzo-stage .vo-paper {
+html[data-dsh-theme="light"] body #dsh-vellum-stage .vo-paper {
   position: absolute;
   inset: 0;
   background: #f5ede2;
   transition: opacity .6s ease;
 }
-html[data-dsh-theme="light"] body #dsh-oryzo-stage[data-state="open"] .vo-paper {
+html[data-dsh-theme="light"] body #dsh-vellum-stage[data-state="open"] .vo-paper {
   opacity: 0;
 }
 
